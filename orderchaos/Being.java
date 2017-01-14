@@ -102,7 +102,7 @@ public class Being {
 		john.genome = GeneticsUtils.generateGenome();
 		System.out.println("This is " + jane.getName() + "'s genome:\n");
 		System.out.println(GeneticsUtils.printGenes(jane.genome));
-		System.out.println("This is " + john.getName() + "s genome:\n");
+		System.out.println("This is " + john.getName() + "'s genome:\n");
 		System.out.println(GeneticsUtils.printGenes(john.genome));
 		Being baby = jane.getChild("Baby Doe");
 		System.out.println("This is " + baby.getName() + "'s genome:\n");

@@ -1,12 +1,11 @@
 package WorldSimulation.orderchaos;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 public class GeneticsUtils {
 
-	public static final Set<String> allGeneNames = new HashSet<>(
+	public static final LinkedHashSet<String> allGeneNames = new LinkedHashSet<String>(
 			Arrays.asList("Hair red", "Hair green", "Hair blue", "Eyes red", "Eyes green", "Eyes blue", "Skin red",
 					"Skin green", "Skin blue", "Wings", "Wings red", "Wings green", "Wings blue", "Tail", "Horns"));
 
