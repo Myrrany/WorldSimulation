@@ -36,12 +36,17 @@ public class Gene {
 	}
 
 	// Methods
+	
+	/**
+	 * General toString method.
+	 */
 	public String toString() {
 		return (this.getGeneName() == null || this.getGeneName().equals("") ? "Unnamed Gene:\n"
 				: this.getGeneName() + ":\n") + "Chromosome a: " + this.chromA + "\nChromosome b: " + this.chromB
 				+ "\nDominant: " + this.isDom;
 	}
 
+	// Getters and Setters
 	public String getGeneName() {
 		return geneName;
 	}
@@ -74,6 +79,11 @@ public class Gene {
 		this.isDom = isDom;
 	}
 
+	
+	/**
+	 * Main method to test out Gene generation
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Gene totalRand = new Gene();
 		System.out.println(totalRand.toString() + "\n");
