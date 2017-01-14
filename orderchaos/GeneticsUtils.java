@@ -13,14 +13,6 @@ public class GeneticsUtils {
 	public GeneticsUtils() {
 	}
 
-	public Gene[] getGeneArray(Being being) {
-		Gene[] genes = new Gene[10];
-		// This is the gene for red hair.
-		genes[0] = new Gene(10, 23, true);
-		return null;
-		// TODO: implement this better
-	}
-
 	public static Gene[] breedGenes(Gene[] mom, Gene[] dad) {
 		Gene[] child = new Gene[allGeneNames.size()];
 		int a;
@@ -40,8 +32,7 @@ public class GeneticsUtils {
 			}
 			if (mom[i].isDom() == dad[i].isDom()) {
 				dom = mom[i].isDom();
-			}
-			else {
+			} else {
 				dom = true;
 			}
 			child[i] = new Gene(a, b, dom);
@@ -50,7 +41,7 @@ public class GeneticsUtils {
 		}
 		return child;
 	}
-	
+
 	public static String printGenes(Gene[] array) {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < array.length; i++) {
@@ -59,7 +50,7 @@ public class GeneticsUtils {
 		}
 		return sb.toString();
 	}
-	
+
 	public static Gene[] generateGenome() {
 		Gene[] name = new Gene[allGeneNames.size()];
 		int i = 0;
@@ -74,6 +65,5 @@ public class GeneticsUtils {
 		}
 		return name;
 	}
-	
 
 }

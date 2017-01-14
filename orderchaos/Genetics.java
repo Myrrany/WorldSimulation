@@ -1,14 +1,9 @@
 package WorldSimulation.orderchaos;
 
-
 public class Genetics {
-	
-// Currently completely empty
-	
-	
-	
-	
+
+	// Currently completely empty
+
 	// Why are you even here
-	
-	
+
 }
