@@ -11,13 +11,19 @@ public class GeneticsUtils {
 			Arrays.asList("Hair red", "Hair green", "Hair blue", "Eyes red", "Eyes green", "Eyes blue", "Skin red",
 					"Skin green", "Skin blue", "Wings", "Wings red", "Wings green", "Wings blue", "Tail", "Horns"));
 
-	// Constructor
 	public GeneticsUtils() {
 	}
 
-	// Method to derive a possible genome for a child from the genome of the
-	// parents
-	// Takes the Gene[] of the parents, outputs a Gene[] for the child
+	/**
+	 * Method to derive a possible genome for a child from the genome of the
+	 * parents.
+	 * 
+	 * @param mom
+	 *            Gene[] of the mother
+	 * @param dad
+	 *            Gene[] of the father
+	 * @return Gene[] of the child
+	 */
 	public static Gene[] breedGenes(Gene[] mom, Gene[] dad) {
 		Gene[] child = new Gene[allGeneNames.size()];
 		// Name some variables for later use.
@@ -56,9 +62,14 @@ public class GeneticsUtils {
 		return child;
 	}
 
-	// Method to print a Gene[] to string
-	// Basically a toString method
-	public static String printGenes(Gene[] array) {
+	/**
+	 * ToString method for entire Gene[].
+	 * 
+	 * @param array
+	 *            Gene array that needs to be converted into String
+	 * @return String
+	 */
+	public static String genesToString(Gene[] array) {
 		StringBuilder sb = new StringBuilder();
 		// Iterates over the given array
 		for (int i = 0; i < array.length; i++) {
@@ -71,7 +82,11 @@ public class GeneticsUtils {
 		return sb.toString();
 	}
 
-	// Method to randomly generate a Gene[]
+	/**
+	 * Method to randomly generate a Gene[].
+	 * 
+	 * @return Gene[]
+	 */
 	public static Gene[] generateGenome() {
 		Gene[] name = new Gene[allGeneNames.size()];
 		int i = 0;
@@ -91,8 +106,5 @@ public class GeneticsUtils {
 	}
 
 }
-
-
-
 
 // Ceterum censeo Carthaginem esse delendam

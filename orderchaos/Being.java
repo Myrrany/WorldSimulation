@@ -2,6 +2,7 @@ package WorldSimulation.orderchaos;
 
 public class Being {
 
+	// The variables each being has, might be up for extension at some point
 	private String name;
 	private int age;
 	private World location;
@@ -10,6 +11,8 @@ public class Being {
 	private Being partner;
 	private Gene[] genome;
 
+	
+	// The different constructors
 	public Being(String name, int age) {
 		this.name = name;
 		this.age = age;
@@ -30,6 +33,8 @@ public class Being {
 		this.age = 0;
 	}
 
+	
+	// Obligatory getters and setters
 	public String getName() {
 		return this.name;
 	}
@@ -66,6 +71,7 @@ public class Being {
 		this.age = age;
 	}
 
+	// Both parents are set at the same time
 	public void setParents(Being mother, Being father) {
 		this.mother = mother;
 		this.father = father;
@@ -79,14 +85,22 @@ public class Being {
 		this.partner = partner;
 	}
 
+	// Different from a simple setter, this increments the age of the being by 1
 	public void yearPassed() {
 		this.age++;
 	}
-
+	
+	/**
+	 * Method to let two Beings conceive a child.
+	 * @param name name for the new being
+	 * @return Child if there are two parents, nothing if only one.
+	 */
 	public Being getChild(String name) {
+		// Checks if the parent has a partner
 		if (this.getPartner() != null) {
 			Being child = new Being(name);
 			child.setParents(this, this.getPartner());
+			// Child's genome is determined by the parents' genome
 			child.genome = GeneticsUtils.breedGenes(this.genome, this.getPartner().genome);
 			return child;
 		} else {
@@ -94,19 +108,29 @@ public class Being {
 		}
 	}
 
+	/**
+	 * Main method for testing out the getChild method
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		Being jane = new Being("Jane Doe", 30);
-		Being john = new Being("John Doe", 30);
-		jane.setPartner(john);
-		jane.genome = GeneticsUtils.generateGenome();
-		john.genome = GeneticsUtils.generateGenome();
-		System.out.println("This is " + jane.getName() + "'s genome:\n");
-		System.out.println(GeneticsUtils.printGenes(jane.genome));
-		System.out.println("This is " + john.getName() + "'s genome:\n");
-		System.out.println(GeneticsUtils.printGenes(john.genome));
-		Being baby = jane.getChild("Baby Doe");
+		// Create parents
+		Being beitske = new Being("Beitske Doe", 30);
+		Being tim = new Being("Tim Doe", 30);
+		// Make parents fall in love
+		beitske.setPartner(tim);
+		// Give parents genes
+		beitske.genome = GeneticsUtils.generateGenome();
+		tim.genome = GeneticsUtils.generateGenome();
+		// Print the genes for checking purposes
+		System.out.println("This is " + beitske.getName() + "'s genome:\n");
+		System.out.println(GeneticsUtils.genesToString(beitske.genome));
+		System.out.println("This is " + tim.getName() + "'s genome:\n");
+		System.out.println(GeneticsUtils.genesToString(tim.genome));
+		// Conceive a child
+		Being baby = beitske.getChild("Baby Doe");
+		// Print the child's genes for checking purposes
 		System.out.println("This is " + baby.getName() + "'s genome:\n");
-		System.out.println(GeneticsUtils.printGenes(baby.genome));
+		System.out.println(GeneticsUtils.genesToString(baby.genome));
 	}
 
 }
