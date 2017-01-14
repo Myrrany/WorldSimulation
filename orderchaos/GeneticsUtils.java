@@ -52,11 +52,12 @@ public class GeneticsUtils {
 	}
 	
 	public static String printGenes(Gene[] array) {
-		String out = "";
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < array.length; i++) {
-			out = out + array[i].toString() + "\n\n";
+			sb.append(array[i].toString());
+			sb.append("\n\n");
 		}
-		return out;
+		return sb.toString();
 	}
 	
 	public static Gene[] generateGenome() {
