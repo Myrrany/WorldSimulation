@@ -6,6 +6,7 @@ public class Gene {
 
 	
 	// Variables
+	public String geneName;
 	public int chromA;
 	public int chromB;
 	public boolean isDom;
@@ -24,6 +25,12 @@ public class Gene {
 		this.isDom = dominance;
 	}
 	
+	public Gene(int chroma, int chromb) {
+		this.chromA = chroma;
+		this.chromB = chromb;
+		this.isDom = false;
+	}
+	
 	public Gene() {
 		this.chromA = ThreadLocalRandom.current().nextInt(0, 256);
 		this.chromB = ThreadLocalRandom.current().nextInt(0, 256);
@@ -33,7 +40,15 @@ public class Gene {
 	
 	// Methods
 	public String toString() {
-		return "Chromosome a: " + this.chromA + "\nChromosome b: " + this.chromB + "\nDominant: " + this.isDom;
+		return (this.getGeneName() == null || this.getGeneName().equals("")? "Unnamed Gene\n" : this.getGeneName()) + "Chromosome a: " + this.chromA + "\nChromosome b: " + this.chromB + "\nDominant: " + this.isDom;
+	}
+	
+	public String getGeneName() {
+		return geneName;
+	}
+
+	public void setGeneName(String gene) {
+		this.geneName = gene;
 	}
 		
 	public int getChromA() {
