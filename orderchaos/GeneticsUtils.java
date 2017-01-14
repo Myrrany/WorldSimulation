@@ -7,8 +7,8 @@ import java.util.Set;
 public class GeneticsUtils {
 
 	public static final Set<String> allGeneNames = new HashSet<>(
-			Arrays.asList("hairred", "hairgreen", "hairblue", "eyesred", "eyesgreen", "eyesblue", "skinred",
-					"skingreen", "skinblue", "wings", "wingsred", "wingsgreen", "wingsblue", "tail", "horns"));
+			Arrays.asList("Hair red", "Hair green", "Hair blue", "Eyes red", "Eyes green", "Eyes blue", "Skin red",
+					"Skin green", "Skin blue", "Wings", "Wings red", "Wings green", "Wings blue", "Tail", "Horns"));
 
 	public GeneticsUtils() {
 	}
@@ -21,7 +21,7 @@ public class GeneticsUtils {
 		// TODO: implement this better
 	}
 
-	public Gene[] breedGenes(Gene[] mom, Gene[] dad) {
+	public static Gene[] breedGenes(Gene[] mom, Gene[] dad) {
 		Gene[] child = new Gene[allGeneNames.size()];
 		int a;
 		int b;
@@ -50,5 +50,29 @@ public class GeneticsUtils {
 		}
 		return child;
 	}
+	
+	public static String printGenes(Gene[] array) {
+		String out = "";
+		for (int i = 0; i < array.length; i++) {
+			out = out + array[i].toString() + "\n\n";
+		}
+		return out;
+	}
+	
+	public static Gene[] generateGenome() {
+		Gene[] name = new Gene[allGeneNames.size()];
+		int i = 0;
+		for (String geneName : allGeneNames) {
+			if (geneName.equals("Wings") || geneName.equals("Tail") || geneName.equals("Horns")) {
+				name[i] = new Gene(false, 0, 1);
+			} else {
+				name[i] = new Gene();
+			}
+			name[i].setGeneName(geneName);
+			i++;
+		}
+		return name;
+	}
+	
 
 }

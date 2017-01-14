@@ -40,8 +40,10 @@ public class Gene {
 	
 	// Methods
 	public String toString() {
-		return (this.getGeneName() == null || this.getGeneName().equals("")? "Unnamed Gene\n" : this.getGeneName()) + "Chromosome a: " + this.chromA + "\nChromosome b: " + this.chromB + "\nDominant: " + this.isDom;
+		return (this.getGeneName() == null || this.getGeneName().equals("")? "Unnamed Gene:\n" : this.getGeneName() + ":\n") + 
+				"Chromosome a: " + this.chromA + "\nChromosome b: " + this.chromB + "\nDominant: " + this.isDom;
 	}
+	
 	
 	public String getGeneName() {
 		return geneName;

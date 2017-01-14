@@ -8,6 +8,7 @@ public class Being {
 	private Being mother;
 	private Being father;
 	private Being partner;
+	private Gene[] genome;
 	
 	public Being(String name, int age) {
 		this.name = name;
@@ -70,10 +71,31 @@ public class Being {
 		this.age++;
 	}
 	
-	public void getChild(String name) {
-		
-		
-		
+	public Being getChild(String name) {
+		if (this.getPartner() != null) {
+			Being child = new Being(name);
+			child.setParents(this, this.getPartner());
+			child.genome = GeneticsUtils.breedGenes(this.genome, this.getPartner().genome);
+			return child;
+		}
+		else {
+			return null;
+		}
+	}
+	
+	public static void main(String[] args) {
+		Being jane = new Being("Jane Doe", 30);
+		Being john = new Being("John Doe", 30);
+		jane.setPartner(john);
+		jane.genome = GeneticsUtils.generateGenome();
+		john.genome = GeneticsUtils.generateGenome();
+		System.out.println("This is " + jane.getName() + "'s genome:\n");
+		System.out.println(GeneticsUtils.printGenes(jane.genome));
+		System.out.println("This is " + john.getName() + "s genome:\n");
+		System.out.println(GeneticsUtils.printGenes(john.genome));
+		Being baby = jane.getChild("Baby Doe");
+		System.out.println("This is " + baby.getName() + "'s genome:\n");
+		System.out.println(GeneticsUtils.printGenes(baby.genome));
 	}
 	
 }
