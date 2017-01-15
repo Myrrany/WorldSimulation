@@ -114,8 +114,8 @@ public class Being {
 	 */
 	public static void main(String[] args) {
 		// Create parents
-		Being beitske = new Being("Beitske Doe", 30);
-		Being tim = new Being("Tim Doe", 30);
+		Being beitske = new Being("Beitske Flake", 20);
+		Being tim = new Being("Tim Kerkhoven", 22);
 		// Make parents fall in love
 		beitske.setPartner(tim);
 		// Give parents genes
@@ -127,10 +127,15 @@ public class Being {
 		System.out.println("This is " + tim.getName() + "'s genome:\n");
 		System.out.println(GeneticsUtils.genesToString(tim.genome));
 		// Conceive a child
-		Being baby = beitske.getChild("Baby Doe");
+		Being eraxa = beitske.getChild("Eraxa Roscha Flake-Kerkhoven");
 		// Print the child's genes for checking purposes
-		System.out.println("This is " + baby.getName() + "'s genome:\n");
-		System.out.println(GeneticsUtils.genesToString(baby.genome));
+		System.out.println("This is " + eraxa.getName() + "'s genome:\n");
+		System.out.println(GeneticsUtils.genesToString(eraxa.genome));
+		// Conceive a child
+		Being arthion = beitske.getChild("Arthion Tanach Flake-Kerkhoven");
+		// Print the child's genes for checking purposes
+		System.out.println("This is " + arthion.getName() + "'s genome:\n");
+		System.out.println(GeneticsUtils.genesToString(arthion.genome));
 	}
 
 }

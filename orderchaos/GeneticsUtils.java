@@ -9,7 +9,7 @@ public class GeneticsUtils {
 	// It can be extended if needed by adding more names to the list.
 	public static final LinkedHashSet<String> allGeneNames = new LinkedHashSet<String>(
 			Arrays.asList("Hair red", "Hair green", "Hair blue", "Eyes red", "Eyes green", "Eyes blue", "Skin red",
-					"Skin green", "Skin blue", "Wings", "Wings red", "Wings green", "Wings blue", "Tail", "Horns"));
+					"Skin green", "Skin blue", "Wings", "Wings red", "Wings green", "Wings blue", "Tail", "Horns", "Elf Ears"));
 
 	public GeneticsUtils() {
 	}
@@ -94,7 +94,7 @@ public class GeneticsUtils {
 		for (String geneName : allGeneNames) {
 			// Uses other parameters for gene generation if the gene is for the
 			// presence of certain body parts
-			if (geneName.equals("Wings") || geneName.equals("Tail") || geneName.equals("Horns")) {
+			if (geneName.equals("Wings") || geneName.equals("Tail") || geneName.equals("Horns") || geneName.equals("Elf Ears")) {
 				name[i] = new Gene(false, 0, 1);
 			} else {
 				name[i] = new Gene();
