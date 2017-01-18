@@ -107,6 +107,11 @@ public class Being {
 			return null;
 		}
 	}
+	
+	public void setGenome(Gene[] genome) {
+		this.genome = genome;
+		
+	}
 
 	/**
 	 * Main method for testing out the getChild method
