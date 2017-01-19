@@ -167,7 +167,7 @@ public class GenomeToHtml {
 								+ item.getValue().get("green") + ", " + item.getValue().get("blue") + ");\">" + ""
 								+ "</td>");
 					} else {
-						pw.println("<td style=\"width: 20px; background-color: rgb(null, null, null);\">No</td>");
+						pw.println("<td>No</td>");
 					}
 				} else {
 					pw.println("<td style=\"width: 20px; background-color: rgb(" + item.getValue().get("red") + ", "
