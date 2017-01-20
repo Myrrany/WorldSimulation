@@ -1,5 +1,7 @@
 package WorldSimulation.orderchaos;
 
+import WorldSimulation.converter.GenomeToHtml;
+
 public class Being {
 
 	// The variables each being has, might be up for extension at some point
@@ -126,21 +128,15 @@ public class Being {
 		// Give parents genes
 		beitske.genome = GeneticsUtils.generateGenome();
 		tim.genome = GeneticsUtils.generateGenome();
-		// Print the genes for checking purposes
-		System.out.println("This is " + beitske.getName() + "'s genome:\n");
-		System.out.println(GeneticsUtils.genesToString(beitske.genome));
-		System.out.println("This is " + tim.getName() + "'s genome:\n");
-		System.out.println(GeneticsUtils.genesToString(tim.genome));
 		// Conceive a child
 		Being eraxa = beitske.getChild("Eraxa Roscha Flake-Kerkhoven");
-		// Print the child's genes for checking purposes
-		System.out.println("This is " + eraxa.getName() + "'s genome:\n");
-		System.out.println(GeneticsUtils.genesToString(eraxa.genome));
 		// Conceive a child
 		Being arthion = beitske.getChild("Arthion Tanach Flake-Kerkhoven");
-		// Print the child's genes for checking purposes
-		System.out.println("This is " + arthion.getName() + "'s genome:\n");
 		System.out.println(GeneticsUtils.genesToString(arthion.genome));
+		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(beitske, true));
+		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(tim, true));
+		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(eraxa, true));
+		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(arthion, true));
 	}
 
 }
