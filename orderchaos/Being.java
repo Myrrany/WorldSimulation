@@ -1,5 +1,7 @@
 package WorldSimulation.orderchaos;
 
+import java.util.Set;
+
 import WorldSimulation.converter.GenomeToHtml;
 
 public class Being {
@@ -8,10 +10,10 @@ public class Being {
 	private String name;
 	private int age;
 	private World location;
-	private Being mother;
-	private Being father;
+	private Set<Being> parents;
 	private Being partner;
 	private Gene[] genome;
+	private Set<Being> children;
 
 	
 	// The different constructors
@@ -45,12 +47,8 @@ public class Being {
 		return this.age;
 	}
 
-	public Being getMother() {
-		return this.mother;
-	}
-
-	public Being getFather() {
-		return this.father;
+	public Set<Being> getParents() {
+		return this.parents;
 	}
 
 	public Being getPartner() {
@@ -64,6 +62,10 @@ public class Being {
 	public Gene[] getGeneArray() {
 		return this.genome;
 	}
+	
+	public Set<Being> getChildren() {
+		return this.children;
+	}
 
 	public void setName(String name) {
 		this.name = name;
@@ -75,8 +77,8 @@ public class Being {
 
 	// Both parents are set at the same time
 	public void setParents(Being mother, Being father) {
-		this.mother = mother;
-		this.father = father;
+		parents.add(mother);
+		parents.add(father);
 	}
 
 	public void moveWorlds(World destination) {
@@ -104,6 +106,8 @@ public class Being {
 			child.setParents(this, this.getPartner());
 			// Child's genome is determined by the parents' genome
 			child.genome = GeneticsUtils.breedGenes(this.genome, this.getPartner().genome);
+			this.children.add(child);
+			this.getPartner().children.add(child);
 			return child;
 		} else {
 			return null;
