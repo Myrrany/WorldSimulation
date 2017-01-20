@@ -1,5 +1,6 @@
 package WorldSimulation.orderchaos;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import WorldSimulation.converter.GenomeToHtml;
@@ -20,21 +21,29 @@ public class Being {
 	public Being(String name, int age) {
 		this.name = name;
 		this.age = age;
+		this.children = new HashSet<Being>();
+		this.parents = new HashSet<Being>();
 	}
 
 	public Being(String name) {
 		this.name = name;
 		this.age = 0;
+		this.children = new HashSet<Being>();
+		this.parents = new HashSet<Being>();
 	}
 
 	public Being(int age) {
 		this.name = "John Doe";
 		this.age = age;
+		this.children = new HashSet<Being>();
+		this.parents = new HashSet<Being>();
 	}
 
 	public Being() {
 		this.name = "John Doe";
 		this.age = 0;
+		this.children = new HashSet<Being>();
+		this.parents = new HashSet<Being>();
 	}
 
 	
