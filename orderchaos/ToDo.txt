@@ -1,5 +1,4 @@
 To do:
 
-- Add RGB-to-color converter
 - Add GUI?
 - Add TUI

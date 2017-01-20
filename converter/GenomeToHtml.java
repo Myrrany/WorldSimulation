@@ -14,9 +14,9 @@ import java.util.Map;
 public class GenomeToHtml {
 
 	public static void main(String[] args) {
-		Being jonah = new Being("Jonah Groenewoud", 23);
-		jonah.setGenome(GeneticsUtils.generateGenome());
-		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(jonah, true));
+		Being myrthe = new Being("Myrthe Hultermans", 19);
+		myrthe.setGenome(GeneticsUtils.generateGenome());
+		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(myrthe, true));
 	}
 
 	/**
@@ -168,6 +168,14 @@ public class GenomeToHtml {
 								+ "</td>");
 					} else {
 						pw.println("<td>No</td>");
+					}
+				} else if (item.getKey().equals("Gender")) {
+					if (item.getValue().get("boolean") == 0) {
+						pw.println("<td>M</td>");
+					} else if (item.getValue().get("boolean") == 1) {
+						pw.println("<td>NB</td>");
+					} else {
+						pw.println("<td>F</td>");
 					}
 				} else {
 					pw.println("<td style=\"width: 20px; background-color: rgb(" + item.getValue().get("red") + ", "
