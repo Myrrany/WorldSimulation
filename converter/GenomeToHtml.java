@@ -14,9 +14,9 @@ import java.util.Map;
 public class GenomeToHtml {
 
 	public static void main(String[] args) {
-		Being myrthe = new Being("Myrthe Hultermans", 19);
-		myrthe.setGenome(GeneticsUtils.generateGenome());
-		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(myrthe, true));
+		Being wanno = new Being("Wanno Drijfhout", 29);
+		wanno.setGenome(GeneticsUtils.generateGenome());
+		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(wanno, true));
 	}
 
 	/**
