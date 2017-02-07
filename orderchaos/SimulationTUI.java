@@ -42,7 +42,9 @@ public class SimulationTUI extends Thread {
 			simul.initialPopulation();
 		} else if (com.equalsIgnoreCase("ROMANCE")) {
 			simul.makeMatches();
-		} else if (com.equalsIgnoreCase("EXIT")) {
+		} else if (com.equalsIgnoreCase("FIND")) {
+			simul.findBeing(rest.substring(1));
+		}else if (com.equalsIgnoreCase("EXIT")) {
 			System.out.println("Goodbye system");
 			this.interrupt();
 		} else if (com.equalsIgnoreCase("HELP")) {

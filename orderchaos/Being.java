@@ -127,6 +127,23 @@ public class Being {
 		this.genome = genome;
 		
 	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Name: " + this.getName());
+		sb.append("\nAge: " + this.getAge());
+		sb.append("\nLocation: " + (this.getLocation() != null ? this.getLocation() : "Unknown"));
+		sb.append("\nPartner: " + (this.getPartner() != null ? this.getPartner().getName() : "None"));
+		sb.append("\nParents: ");
+		for (Being parent : this.getParents()) {
+			 sb.append(("\n") + parent.getName());
+		}
+		sb.append("\nChildren: ");
+		for (Being child : this.getChildren()) {
+			 sb.append(("\n") + child.getName());
+		}
+		return sb.toString();
+	}
 
 	/**
 	 * Main method for testing out the getChild method

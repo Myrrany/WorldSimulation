@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -56,6 +57,21 @@ public class Simulation {
 			System.out.println("Being " + temp.getName() + " succesfully created!\n");
 		}
 		return false;
+	}
+
+	public void findBeing(String name) {
+		boolean found = false;
+		Iterator<Being> it = population.iterator();
+		while (it.hasNext() && !found){
+			Being person = it.next();
+			if (person.getName().equalsIgnoreCase(name)) {
+				System.out.println(person.toString());
+				found = true;
+			}
+		}
+		if (!found) {
+			System.out.println("Being " + name + " not found");
+		}
 	}
 
 }
