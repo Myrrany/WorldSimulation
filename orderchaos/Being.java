@@ -15,6 +15,7 @@ public class Being {
 	private Being partner;
 	private Gene[] genome;
 	private Set<Being> children;
+	private boolean alive;
 
 	
 	// The different constructors
@@ -23,6 +24,7 @@ public class Being {
 		this.age = age;
 		this.children = new HashSet<Being>();
 		this.parents = new HashSet<Being>();
+		this.alive = true;
 	}
 
 	public Being(String name) {
@@ -30,6 +32,7 @@ public class Being {
 		this.age = 0;
 		this.children = new HashSet<Being>();
 		this.parents = new HashSet<Being>();
+		this.alive = true;
 	}
 
 	public Being(int age) {
@@ -37,6 +40,7 @@ public class Being {
 		this.age = age;
 		this.children = new HashSet<Being>();
 		this.parents = new HashSet<Being>();
+		this.alive = true;
 	}
 
 	public Being() {
@@ -44,6 +48,7 @@ public class Being {
 		this.age = 0;
 		this.children = new HashSet<Being>();
 		this.parents = new HashSet<Being>();
+		this.alive = true;
 	}
 
 	
@@ -83,6 +88,14 @@ public class Being {
 	public void setAge(int age) {
 		this.age = age;
 	}
+	
+	public boolean getStatus() {
+		return this.alive;
+	}
+	
+	public void die() {
+		this.alive = false;
+	}
 
 	// Both parents are set at the same time
 	public void setParents(Being mother, Being father) {
@@ -98,9 +111,16 @@ public class Being {
 		this.partner = partner;
 	}
 
-	// Different from a simple setter, this increments the age of the being by 1
+	// Different from a simple setter, this increments the age of the being by 1. It might also kill the Being.
 	public void yearPassed() {
-		this.age++;
+		double rand = Math.random();
+		double var = (1.0d/12000) * this.getAge() * this.getAge();
+		if (rand >= var) {
+			this.age++;
+		} else {
+			this.die();
+			System.out.println("Being " + this.getName() + " has died! (" + rand + ", " + var + ")\n");
+		}
 	}
 	
 	/**
@@ -110,7 +130,7 @@ public class Being {
 	 */
 	public Being getChild(String name) {
 		// Checks if the parent has a partner
-		if (this.getPartner() != null) {
+		if (this.getStatus() && this.getPartner() != null && this.getPartner().getStatus()) {
 			Being child = new Being(name);
 			child.setParents(this, this.getPartner());
 			// Child's genome is determined by the parents' genome
@@ -132,6 +152,7 @@ public class Being {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Name: " + this.getName());
 		sb.append("\nAge: " + this.getAge());
+		sb.append("\nStatus: " + (this.getStatus() ? "Alive" : "Deceased"));
 		sb.append("\nLocation: " + (this.getLocation() != null ? this.getLocation() : "Unknown"));
 		sb.append("\nPartner: " + (this.getPartner() != null ? this.getPartner().getName() : "None"));
 		sb.append("\nParents: ");

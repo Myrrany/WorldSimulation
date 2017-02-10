@@ -1,7 +1,6 @@
 package WorldSimulation.orderchaos;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class Simulation {
 	public void makeMatches() {
 		ArrayList<Being> single = new ArrayList<Being>();
 		for (Being beings : population) {
-			if (beings.getPartner() == null && beings.getAge() > 16) {
+			if (beings.getPartner() == null && beings.getAge() > 16 && beings.getStatus()) {
 				single.add(beings);
 			}
 		}
@@ -42,7 +41,8 @@ public class Simulation {
 			} else {
 				break;
 			}
-			System.out.println(single.get(i).getName() + " matched with " + single.get(i + 1).getName() + "\n");
+			System.out.println(single.get(i).getName() + " matched with "
+					+ single.get(i + 1).getName() + "\n");
 		}
 	}
 
@@ -62,7 +62,7 @@ public class Simulation {
 	public void findBeing(String name) {
 		boolean found = false;
 		Iterator<Being> it = population.iterator();
-		while (it.hasNext() && !found){
+		while (it.hasNext() && !found) {
 			Being person = it.next();
 			if (person.getName().equalsIgnoreCase(name)) {
 				System.out.println(person.toString());
@@ -74,10 +74,37 @@ public class Simulation {
 		}
 	}
 
+	public void addYear() {
+		for (Being person : population) {
+			if (person.getStatus()) {
+				person.yearPassed();
+			}
+		}
+
+	}
+
+	public void getPopulation() {
+		for (Being person : population) {
+			System.out.println(person.getName() + ", " + person.getAge() + ", "
+					+ (person.getStatus() ? "alive" : "deceased"));
+		}
+	}
+
+	public void getLivingPopulation() {
+		for (Being person : population) {
+			if (person.getStatus()) {
+				System.out.println(person.getName() + ", " + person.getAge());
+			}
+		}
+	}
+
+	public void getDeadPopulation() {
+		for (Being person : population) {
+			if (!person.getStatus()) {
+				System.out.println(person.getName() + ", " + person.getAge());
+			}
+		}
+	}
 }
-
-
-
-
 
 //

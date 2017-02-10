@@ -5,7 +5,9 @@ import java.util.Scanner;
 
 public class SimulationTUI extends Thread {
 
-	private String help = "Possible commands: \n\nINITIATE: Initiates a population with names as given in the names.txt file.\nROMANCE: Gives singles a partner.\n";
+	private String help = "Possible commands: \n"
+			+ "\nINITIATE: Initiates a population with names as given in the names.txt file."
+			+ "\nROMANCE: Gives singles a partner." + "\nFIND [name]: Finds a specific being.";
 
 	private Simulation simul;
 
@@ -44,7 +46,17 @@ public class SimulationTUI extends Thread {
 			simul.makeMatches();
 		} else if (com.equalsIgnoreCase("FIND")) {
 			simul.findBeing(rest.substring(1));
-		}else if (com.equalsIgnoreCase("EXIT")) {
+		} else if (com.equalsIgnoreCase("AGE")) {
+			simul.addYear();
+		} else if (com.equalsIgnoreCase("ALL")){
+			if (rest.equalsIgnoreCase(" ALIVE")) {
+				simul.getLivingPopulation();
+			} else if (rest.equalsIgnoreCase(" DEAD")) {
+				simul.getDeadPopulation();
+			} else {
+				simul.getPopulation();
+			}
+		} else if (com.equalsIgnoreCase("EXIT")) {
 			System.out.println("Goodbye system");
 			this.interrupt();
 		} else if (com.equalsIgnoreCase("HELP")) {
