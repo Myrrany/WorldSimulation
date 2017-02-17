@@ -17,7 +17,6 @@ public class Being {
 	private Set<Being> children;
 	private boolean alive;
 
-	
 	// The different constructors
 	public Being(String name, int age) {
 		this.name = name;
@@ -51,7 +50,6 @@ public class Being {
 		this.alive = true;
 	}
 
-	
 	// Obligatory getters and setters
 	public String getName() {
 		return this.name;
@@ -76,7 +74,7 @@ public class Being {
 	public Gene[] getGeneArray() {
 		return this.genome;
 	}
-	
+
 	public Set<Being> getChildren() {
 		return this.children;
 	}
@@ -88,11 +86,11 @@ public class Being {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	
+
 	public boolean getStatus() {
 		return this.alive;
 	}
-	
+
 	public void die() {
 		this.alive = false;
 	}
@@ -111,83 +109,119 @@ public class Being {
 		this.partner = partner;
 	}
 
-	// Different from a simple setter, this increments the age of the being by 1. It might also kill the Being.
+	// Different from a simple setter, this increments the age of the being by
+	// 1. It might also kill the Being.
 	public void yearPassed() {
 		double rand = Math.random();
-		double var = (1.0d/12000) * this.getAge() * this.getAge();
+		double var = (1.0d / 12000) * this.getAge() * this.getAge();
 		if (rand >= var) {
 			this.age++;
 		} else {
 			this.die();
-			System.out.println("Being " + this.getName() + " has died! (" + rand + ", " + var + ")\n");
+			System.out.println("Being " + this.getName() + " has died! \n");
 		}
 	}
-	
+
 	/**
 	 * Method to let two Beings conceive a child.
-	 * @param name name for the new being
+	 * 
+	 * @param name
+	 *            name for the new being
 	 * @return Child if there are two parents, nothing if only one.
 	 */
 	public Being getChild(String name) {
 		// Checks if the parent has a partner
 		if (this.getStatus() && this.getPartner() != null && this.getPartner().getStatus()) {
-			Being child = new Being(name);
-			child.setParents(this, this.getPartner());
-			// Child's genome is determined by the parents' genome
-			child.genome = GeneticsUtils.breedGenes(this.genome, this.getPartner().genome);
-			this.children.add(child);
-			this.getPartner().children.add(child);
-			return child;
+			int children;
+			if (this.getChildren().size() == 0) {
+				children = 1;
+			} else {
+				children = this.getChildren().size();
+			}
+
+			double curve = ((-((this.getAge() - 35) * (this.getAge() - 35)) / 400d) + 0.75)
+					/ children;
+			double secondCurve = ((-((this.getPartner().getAge() - 35)
+					* (this.getPartner().getAge() - 35)) / 400d) + 0.75) / children;
+			double rand = Math.random();
+			if (rand <= curve + secondCurve) {
+				Being child = new Being(name);
+				child.setParents(this, this.getPartner());
+				// Child's genome is determined by the parents' genome
+				child.genome = GeneticsUtils.breedGenes(this.genome, this.getPartner().genome);
+				this.children.add(child);
+				this.getPartner().children.add(child);
+				System.out.println(this.getName() + " and " + this.getPartner().getName()
+						+ " conceived a child named " + name + ".");
+				return child;
+			} else {
+				System.out.println(this.getName() + " and " + this.getPartner().getName()
+						+ " could not conceive a child.");
+				return null;
+			}
 		} else {
 			return null;
 		}
 	}
-	
+
 	public void setGenome(Gene[] genome) {
 		this.genome = genome;
-		
+
 	}
-	
+
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Name: " + this.getName());
 		sb.append("\nAge: " + this.getAge());
 		sb.append("\nStatus: " + (this.getStatus() ? "Alive" : "Deceased"));
 		sb.append("\nLocation: " + (this.getLocation() != null ? this.getLocation() : "Unknown"));
-		sb.append("\nPartner: " + (this.getPartner() != null ? this.getPartner().getName() : "None"));
+		sb.append(
+				"\nPartner: " + (this.getPartner() != null ? this.getPartner().getName() : "None"));
 		sb.append("\nParents: ");
 		for (Being parent : this.getParents()) {
-			 sb.append(("\n") + parent.getName());
+			sb.append(("\n") + parent.getName());
 		}
 		sb.append("\nChildren: ");
 		for (Being child : this.getChildren()) {
-			 sb.append(("\n") + child.getName());
+			sb.append(("\n") + child.getName());
 		}
 		return sb.toString();
 	}
 
 	/**
 	 * Main method for testing out the getChild method
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		// Create parents
-		Being beitske = new Being("Beitske Flake", 20);
-		Being tim = new Being("Tim Kerkhoven", 22);
+		Being jane = new Being("Jane Doe", 30);
+		Being john = new Being("John Doe", 35);
 		// Make parents fall in love
-		beitske.setPartner(tim);
+		jane.setPartner(john);
 		// Give parents genes
-		beitske.genome = GeneticsUtils.generateGenome();
-		tim.genome = GeneticsUtils.generateGenome();
+		jane.genome = GeneticsUtils.generateGenome();
+		john.genome = GeneticsUtils.generateGenome();
 		// Conceive a child
-		Being eraxa = beitske.getChild("Eraxa Roscha Flake-Kerkhoven");
+		Being jimmy = jane.getChild("Jimmy Doe");
 		// Conceive a child
-		Being arthion = beitske.getChild("Arthion Tanach Flake-Kerkhoven");
-		System.out.println(GeneticsUtils.genesToString(arthion.genome));
-		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(beitske, true));
-		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(tim, true));
-		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(eraxa, true));
-		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(arthion, true));
+		Being jasmine = jane.getChild("Jasmine Doe");
+		// Conceive a child
+		Being joyce = jane.getChild("Joyce Doe");
+		// Conceive a child
+		Being jarl = jane.getChild("Jarl Doe");
+		// Conceive a child
+		Being jill = jane.getChild("Jill Doe");
+		// Conceive a child
+		Being jesper = jane.getChild("Jesper Doe");
+		// Conceive a child
+		Being joanna = jane.getChild("Joanna Doe");
+		// System.out.println(GeneticsUtils.genesToString(jasmine.genome));
+		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(jane, true));
+		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(john, true));
+		for (Being kid : jane.getChildren()) {
+			GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(kid, true));
+		}
 	}
 
 }
