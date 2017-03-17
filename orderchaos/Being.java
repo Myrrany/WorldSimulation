@@ -1,7 +1,12 @@
 package WorldSimulation.orderchaos;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 import WorldSimulation.converter.GenomeToHtml;
 
@@ -34,8 +39,8 @@ public class Being {
 		this.alive = true;
 	}
 
-	public Being(int age) {
-		this.name = "John Doe";
+	public Being(int age) throws IOException {
+		this.name = generateName();
 		this.age = age;
 		this.children = new HashSet<Being>();
 		this.parents = new HashSet<Being>();
@@ -124,12 +129,10 @@ public class Being {
 
 	/**
 	 * Method to let two Beings conceive a child.
-	 * 
-	 * @param name
-	 *            name for the new being
+	 *
 	 * @return Child if there are two parents, nothing if only one.
 	 */
-	public Being getChild(String name) {
+	public Being getChild() throws IOException {
 		// Checks if the parent has a partner
 		if (this.getStatus() && this.getPartner() != null && this.getPartner().getStatus()) {
 			int children;
@@ -145,14 +148,14 @@ public class Being {
 					* (this.getPartner().getAge() - 35)) / 400d) + 0.75) / children;
 			double rand = Math.random();
 			if (rand <= curve + secondCurve) {
-				Being child = new Being(name);
+				Being child = new Being(generateName());
 				child.setParents(this, this.getPartner());
 				// Child's genome is determined by the parents' genome
 				child.genome = GeneticsUtils.breedGenes(this.genome, this.getPartner().genome);
 				this.children.add(child);
 				this.getPartner().children.add(child);
 				System.out.println(this.getName() + " and " + this.getPartner().getName()
-						+ " conceived a child named " + name + ".");
+						+ " conceived a child named " + child.getName() + ".");
 				return child;
 			} else {
 				System.out.println(this.getName() + " and " + this.getPartner().getName()
@@ -168,6 +171,27 @@ public class Being {
 		this.genome = genome;
 
 	}
+
+	public String generateName() throws IOException {
+		BufferedReader firstNameReader = new BufferedReader(new FileReader(getClass().getResource("firstnames.txt").getPath()));
+		String firstName;
+		BufferedReader lastNameReader = new BufferedReader(new FileReader(getClass().getResource("surnames.txt").getPath()));
+		String lastName;
+		int front = ThreadLocalRandom.current().nextInt(0, 5162);
+		int back = ThreadLocalRandom.current().nextInt(0, 151670);
+		for (int i = 0; i < front; i++){
+			firstNameReader.readLine();
+		}
+		firstName = firstNameReader.readLine();
+		for (int i = 0; i < back; i++){
+			lastNameReader.readLine();
+		}
+		lastName = lastNameReader.readLine();
+		StringBuilder sb = new StringBuilder();
+		sb.append(firstName + " " + lastName);
+		return sb.toString();
+	}
+
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -193,7 +217,7 @@ public class Being {
 	 * 
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// Create parents
 		Being jane = new Being("Jane Doe", 30);
 		Being john = new Being("John Doe", 35);
@@ -203,19 +227,19 @@ public class Being {
 		jane.genome = GeneticsUtils.generateGenome();
 		john.genome = GeneticsUtils.generateGenome();
 		// Conceive a child
-		Being jimmy = jane.getChild("Jimmy Doe");
+		Being jimmy = jane.getChild();
 		// Conceive a child
-		Being jasmine = jane.getChild("Jasmine Doe");
+		Being jasmine = jane.getChild();
 		// Conceive a child
-		Being joyce = jane.getChild("Joyce Doe");
+		Being joyce = jane.getChild();
 		// Conceive a child
-		Being jarl = jane.getChild("Jarl Doe");
+		Being jarl = jane.getChild();
 		// Conceive a child
-		Being jill = jane.getChild("Jill Doe");
+		Being jill = jane.getChild();
 		// Conceive a child
-		Being jesper = jane.getChild("Jesper Doe");
+		Being jesper = jane.getChild();
 		// Conceive a child
-		Being joanna = jane.getChild("Joanna Doe");
+		Being joanna = jane.getChild();
 		// System.out.println(GeneticsUtils.genesToString(jasmine.genome));
 		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(jane, true));
 		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(john, true));

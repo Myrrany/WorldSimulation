@@ -41,7 +41,7 @@ public class SimulationTUI extends Thread {
 
 	private boolean parse(String com, String rest) throws InterruptedException, IOException {
 		if (com.equalsIgnoreCase("INITIATE")) {
-			simul.initialPopulation();
+			simul.initialPopulation(Integer.parseInt(rest.substring(1)));
 		} else if (com.equalsIgnoreCase("ROMANCE")) {
 			simul.makeMatches();
 		} else if (com.equalsIgnoreCase("FIND")) {

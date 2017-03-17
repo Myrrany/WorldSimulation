@@ -46,12 +46,10 @@ public class Simulation {
 		}
 	}
 
-	public boolean initialPopulation() throws IOException {
-		reader = new BufferedReader(new FileReader(getClass().getResource("names.txt").getPath()));
-		String name;
-		while ((name = reader.readLine()) != null) {
+	public boolean initialPopulation(int amount) throws IOException {
+		for (int i = 0; i < amount; i++) {
 			int age = ThreadLocalRandom.current().nextInt(0, 100);
-			Being temp = new Being(name, age);
+			Being temp = new Being(age);
 			temp.setGenome(GeneticsUtils.generateGenome());
 			population.add(temp);
 			System.out.println("Being " + temp.getName() + " succesfully created!\n");

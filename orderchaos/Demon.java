@@ -1,5 +1,7 @@
 package WorldSimulation.orderchaos;
 
+import java.io.IOException;
+
 public class Demon extends Being {
 
 	private boolean possessing;
@@ -13,7 +15,7 @@ public class Demon extends Being {
 		super(name);
 	}
 
-	public Demon(int age) {
+	public Demon(int age) throws IOException {
 		super(age);
 	}
 
