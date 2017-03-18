@@ -17,11 +17,9 @@ public class GeneticsUtils {
 	/**
 	 * Method to derive a possible genome for a child from the genome of the
 	 * parents.
-	 * 
-	 * @param mom
-	 *            Gene[] of the mother
-	 * @param dad
-	 *            Gene[] of the father
+	 *
+	 * @param mom Gene[] of the mother
+	 * @param dad Gene[] of the father
 	 * @return Gene[] of the child
 	 */
 	public static Gene[] breedGenes(Gene[] mom, Gene[] dad) {
@@ -64,9 +62,8 @@ public class GeneticsUtils {
 
 	/**
 	 * ToString method for entire Gene[].
-	 * 
-	 * @param array
-	 *            Gene array that needs to be converted into String
+	 *
+	 * @param array Gene array that needs to be converted into String
 	 * @return String
 	 */
 	public static String genesToString(Gene[] array) {
@@ -84,7 +81,7 @@ public class GeneticsUtils {
 
 	/**
 	 * Method to randomly generate a Gene[].
-	 * 
+	 *
 	 * @return Gene[]
 	 */
 	public static Gene[] generateGenome() {
@@ -96,8 +93,7 @@ public class GeneticsUtils {
 			// presence of certain body parts
 			if (geneName.equals("Wings") || geneName.equals("Tail") || geneName.equals("Horns") || geneName.equals("Elf Ears") || geneName.equals("Gender")) {
 				name[i] = new Gene(false, 0, 1);
-			}
-			else {
+			} else {
 				name[i] = new Gene();
 			}
 			name[i].setGeneName(geneName);
@@ -107,5 +103,3 @@ public class GeneticsUtils {
 	}
 
 }
-
-// Ceterum censeo Carthaginem esse delendam

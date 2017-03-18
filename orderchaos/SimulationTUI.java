@@ -8,7 +8,7 @@ public class SimulationTUI extends Thread {
 	private String help = "Possible commands: \n"
 			+ "\nINITIATE [amount]: Initiates a population of [amount] people with random names."
 			+ "\nROMANCE: Gives singles a partner." + "\nFIND [name]: Finds a specific being." +
-			"\nAGE: Lets a year pass."+"\nALL [ALIVE/DEAD]: Gives a list of all [ALIVE/DEAD] beings in the simulation.";
+			"\nAGE: Lets a year pass." + "\nALL [ALIVE/DEAD]: Gives a list of all [ALIVE/DEAD] beings in the simulation.";
 
 	private Simulation simul;
 
@@ -49,7 +49,7 @@ public class SimulationTUI extends Thread {
 			simul.findBeing(rest.substring(1));
 		} else if (com.equalsIgnoreCase("AGE")) {
 			simul.time();
-		} else if (com.equalsIgnoreCase("ALL")){
+		} else if (com.equalsIgnoreCase("ALL")) {
 			if (rest.equalsIgnoreCase(" ALIVE")) {
 				simul.getLivingPopulation();
 			} else if (rest.equalsIgnoreCase(" DEAD")) {

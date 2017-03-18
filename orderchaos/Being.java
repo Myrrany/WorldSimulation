@@ -1,14 +1,13 @@
 package WorldSimulation.orderchaos;
 
+import WorldSimulation.converter.GenomeToHtml;
+
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
-
-import WorldSimulation.converter.GenomeToHtml;
 
 public class Being {
 
@@ -55,13 +54,57 @@ public class Being {
 		this.alive = true;
 	}
 
+	/**
+	 * Main method for testing out the getChild method
+	 *
+	 * @param args
+	 */
+	public static void main(String[] args) throws IOException {
+		// Create parents
+		Being jane = new Being("Jane Doe", 30);
+		Being john = new Being("John Doe", 35);
+		// Make parents fall in love
+		jane.setPartner(john);
+		// Give parents genes
+		jane.genome = GeneticsUtils.generateGenome();
+		john.genome = GeneticsUtils.generateGenome();
+		// Conceive a child
+		Being jimmy = jane.getChild();
+		// Conceive a child
+		Being jasmine = jane.getChild();
+		// Conceive a child
+		Being joyce = jane.getChild();
+		// Conceive a child
+		Being jarl = jane.getChild();
+		// Conceive a child
+		Being jill = jane.getChild();
+		// Conceive a child
+		Being jesper = jane.getChild();
+		// Conceive a child
+		Being joanna = jane.getChild();
+		// System.out.println(GeneticsUtils.genesToString(jasmine.genome));
+		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(jane, true));
+		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(john, true));
+		for (Being kid : jane.getChildren()) {
+			GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(kid, true));
+		}
+	}
+
 	// Obligatory getters and setters
 	public String getName() {
 		return this.name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public int getAge() {
 		return this.age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
 	}
 
 	public Set<Being> getParents() {
@@ -70,6 +113,10 @@ public class Being {
 
 	public Being getPartner() {
 		return this.partner;
+	}
+
+	public void setPartner(Being partner) {
+		this.partner = partner;
 	}
 
 	public World getLocation() {
@@ -82,14 +129,6 @@ public class Being {
 
 	public Set<Being> getChildren() {
 		return this.children;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
 	}
 
 	public boolean getStatus() {
@@ -108,10 +147,6 @@ public class Being {
 
 	public void moveWorlds(World destination) {
 		this.location = destination;
-	}
-
-	public void setPartner(Being partner) {
-		this.partner = partner;
 	}
 
 	// Different from a simple setter, this increments the age of the being by
@@ -179,11 +214,11 @@ public class Being {
 		String lastName;
 		int front = ThreadLocalRandom.current().nextInt(0, 5162);
 		int back = ThreadLocalRandom.current().nextInt(0, 151670);
-		for (int i = 0; i < front; i++){
+		for (int i = 0; i < front; i++) {
 			firstNameReader.readLine();
 		}
 		firstName = firstNameReader.readLine();
-		for (int i = 0; i < back; i++){
+		for (int i = 0; i < back; i++) {
 			lastNameReader.readLine();
 		}
 		lastName = lastNameReader.readLine();
@@ -191,7 +226,6 @@ public class Being {
 		sb.append(firstName + " " + lastName);
 		return sb.toString();
 	}
-
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -210,42 +244,6 @@ public class Being {
 			sb.append(("\n") + child.getName());
 		}
 		return sb.toString();
-	}
-
-	/**
-	 * Main method for testing out the getChild method
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) throws IOException {
-		// Create parents
-		Being jane = new Being("Jane Doe", 30);
-		Being john = new Being("John Doe", 35);
-		// Make parents fall in love
-		jane.setPartner(john);
-		// Give parents genes
-		jane.genome = GeneticsUtils.generateGenome();
-		john.genome = GeneticsUtils.generateGenome();
-		// Conceive a child
-		Being jimmy = jane.getChild();
-		// Conceive a child
-		Being jasmine = jane.getChild();
-		// Conceive a child
-		Being joyce = jane.getChild();
-		// Conceive a child
-		Being jarl = jane.getChild();
-		// Conceive a child
-		Being jill = jane.getChild();
-		// Conceive a child
-		Being jesper = jane.getChild();
-		// Conceive a child
-		Being joanna = jane.getChild();
-		// System.out.println(GeneticsUtils.genesToString(jasmine.genome));
-		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(jane, true));
-		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(john, true));
-		for (Being kid : jane.getChildren()) {
-			GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(kid, true));
-		}
 	}
 
 }
