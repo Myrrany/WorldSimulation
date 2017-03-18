@@ -6,8 +6,9 @@ import java.util.Scanner;
 public class SimulationTUI extends Thread {
 
 	private String help = "Possible commands: \n"
-			+ "\nINITIATE: Initiates a population with names as given in the names.txt file."
-			+ "\nROMANCE: Gives singles a partner." + "\nFIND [name]: Finds a specific being.";
+			+ "\nINITIATE [amount]: Initiates a population of [amount] people with random names."
+			+ "\nROMANCE: Gives singles a partner." + "\nFIND [name]: Finds a specific being." +
+			"\nAGE: Lets a year pass."+"\nALL [ALIVE/DEAD]: Gives a list of all [ALIVE/DEAD] beings in the simulation.";
 
 	private Simulation simul;
 
@@ -47,7 +48,7 @@ public class SimulationTUI extends Thread {
 		} else if (com.equalsIgnoreCase("FIND")) {
 			simul.findBeing(rest.substring(1));
 		} else if (com.equalsIgnoreCase("AGE")) {
-			simul.addYear();
+			simul.time();
 		} else if (com.equalsIgnoreCase("ALL")){
 			if (rest.equalsIgnoreCase(" ALIVE")) {
 				simul.getLivingPopulation();

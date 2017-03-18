@@ -2,4 +2,4 @@ To do:
 
 - Add GUI?
 - Add TUI
-- Name automation for new babies
+- Adjust Aging protocol

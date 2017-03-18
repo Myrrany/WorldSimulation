@@ -1,23 +1,18 @@
 package WorldSimulation.orderchaos;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Simulation {
 
 	public Set<Being> population;
-
-	private static BufferedReader reader;
+	public Map<Being, Being> couples;
 
 	public Simulation() {
 		population = new HashSet<Being>();
+		couples = new HashMap<Being, Being>();
 	}
 
 	public void makeMatches() {
@@ -43,6 +38,7 @@ public class Simulation {
 			}
 			System.out.println(single.get(i).getName() + " matched with "
 					+ single.get(i + 1).getName() + "\n");
+			couples.put(single.get(i), single.get(i + 1));
 		}
 	}
 
@@ -73,12 +69,31 @@ public class Simulation {
 	}
 
 	public void addYear() {
-		for (Being person : population) {
-			if (person.getStatus()) {
-				person.yearPassed();
+		for (Being person : population
+				) {
+			{
+				if (person.getStatus()) {
+					person.yearPassed();
+				}
 			}
 		}
 
+	}
+
+	public void time() throws IOException {
+		makeMatches();
+		makeBabies();
+		addYear();
+
+	}
+
+	public void makeBabies() throws IOException {
+		for (Map.Entry<Being, Being> entry : couples.entrySet()) {
+			Being tempKid = entry.getKey().getChild();
+			if (tempKid != null) {
+				population.add(tempKid);
+			}
+		}
 	}
 
 	public void getPopulation() {
@@ -89,17 +104,20 @@ public class Simulation {
 	}
 
 	public void getLivingPopulation() {
-		for (Being person : population) {
+		for (Being person : population) { {
 			if (person.getStatus()) {
 				System.out.println(person.getName() + ", " + person.getAge());
 			}
-		}
+		}}
 	}
 
 	public void getDeadPopulation() {
-		for (Being person : population) {
-			if (!person.getStatus()) {
-				System.out.println(person.getName() + ", " + person.getAge());
+		for (Being person : population
+				) {
+			{
+				if (!person.getStatus()) {
+					System.out.println(person.getName() + ", " + person.getAge());
+				}
 			}
 		}
 	}
