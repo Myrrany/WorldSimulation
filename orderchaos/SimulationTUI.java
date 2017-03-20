@@ -12,7 +12,7 @@ public class SimulationTUI extends Thread {
 
 	private Simulation simul;
 
-	public SimulationTUI() {
+	private SimulationTUI() {
 
 	}
 

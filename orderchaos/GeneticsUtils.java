@@ -7,7 +7,7 @@ public class GeneticsUtils {
 
 	// This set contains the names of all used genes.
 	// It can be extended if needed by adding more names to the list.
-	public static final LinkedHashSet<String> allGeneNames = new LinkedHashSet<String>(
+	private static final LinkedHashSet<String> allGeneNames = new LinkedHashSet<>(
 			Arrays.asList("Hair red", "Hair green", "Hair blue", "Eyes red", "Eyes green", "Eyes blue", "Skin red",
 					"Skin green", "Skin blue", "Wings", "Wings red", "Wings green", "Wings blue", "Tail", "Horns", "Elf Ears", "Gender"));
 
@@ -22,7 +22,7 @@ public class GeneticsUtils {
 	 * @param dad Gene[] of the father
 	 * @return Gene[] of the child
 	 */
-	public static Gene[] breedGenes(Gene[] mom, Gene[] dad) {
+	static Gene[] breedGenes(Gene[] mom, Gene[] dad) {
 		Gene[] child = new Gene[allGeneNames.size()];
 		// Name some variables for later use.
 		int a;
@@ -46,12 +46,8 @@ public class GeneticsUtils {
 				b = dad[i].getChromB();
 			}
 			// Check if a gene is dominant and pass it on.
-			if (mom[i].isDom() == dad[i].isDom()) {
-				dom = mom[i].isDom();
-			} else {
-				dom = true;
-			}
-			// Store all previously gathered information in a gene and put it in
+			dom = mom[i].isDom() != dad[i].isDom() || mom[i].isDom();
+// Store all previously gathered information in a gene and put it in
 			// the childs genome.
 			child[i] = new Gene(a, b, dom);
 			child[i].setGeneName(geneName);
@@ -69,9 +65,9 @@ public class GeneticsUtils {
 	public static String genesToString(Gene[] array) {
 		StringBuilder sb = new StringBuilder();
 		// Iterates over the given array
-		for (int i = 0; i < array.length; i++) {
+		for (Gene anArray : array) {
 			// Uses the Gene.toString method and appends it to a string builder.
-			sb.append(array[i].toString());
+			sb.append(anArray.toString());
 			// Adds newlines for readability
 			sb.append("\n\n");
 		}

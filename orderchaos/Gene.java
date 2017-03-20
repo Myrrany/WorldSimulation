@@ -5,19 +5,19 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Gene {
 
 	// Variables
-	public String geneName;
-	public int chromA;
-	public int chromB;
-	public boolean isDom;
+	private String geneName;
+	private int chromA;
+	private int chromB;
+	private boolean isDom;
 
 	// Constructors
-	public Gene(int chroma, int chromb, boolean dominance) {
+	Gene(int chroma, int chromb, boolean dominance) {
 		this.chromA = chroma;
 		this.chromB = chromb;
 		this.isDom = dominance;
 	}
 
-	public Gene(boolean dominance, int lowerbound, int upperbound) {
+	Gene(boolean dominance, int lowerbound, int upperbound) {
 		this.chromA = ThreadLocalRandom.current().nextInt(lowerbound, upperbound + 1);
 		this.chromB = ThreadLocalRandom.current().nextInt(lowerbound, upperbound + 1);
 		this.isDom = dominance;
@@ -29,7 +29,7 @@ public class Gene {
 		this.isDom = false;
 	}
 
-	public Gene() {
+	Gene() {
 		this.chromA = ThreadLocalRandom.current().nextInt(0, 256);
 		this.chromB = ThreadLocalRandom.current().nextInt(0, 256);
 		this.isDom = (Math.random() > 0.5);
@@ -51,7 +51,7 @@ public class Gene {
 		return geneName;
 	}
 
-	public void setGeneName(String gene) {
+	void setGeneName(String gene) {
 		this.geneName = gene;
 	}
 
@@ -59,7 +59,7 @@ public class Gene {
 		return chromA;
 	}
 
-	public void setChromA(int chromA) {
+	private void setChromA(int chromA) {
 		this.chromA = chromA;
 	}
 
@@ -71,7 +71,7 @@ public class Gene {
 		this.chromB = chromB;
 	}
 
-	public boolean isDom() {
+	boolean isDom() {
 		return isDom;
 	}
 
@@ -82,7 +82,7 @@ public class Gene {
 	
 	/**
 	 * Main method to test out Gene generation
-	 * @param args
+	 * @param args The arguments that are passed to the main method. Nothing is done with them.
 	 */
 	public static void main(String[] args) {
 		Gene totalRand = new Gene();

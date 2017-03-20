@@ -36,7 +36,7 @@ public class Demon extends Being {
 	}
 
 	public String getPossessionStatus() {
-		return "Possessing " + (this.possessing == true ? this.possessee : "no one.");
+		return "Possessing " + (this.possessing ? this.possessee : "no one.");
 	}
 
 }

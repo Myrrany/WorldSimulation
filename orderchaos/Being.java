@@ -15,51 +15,39 @@ public class Being {
 	private String name;
 	private int age;
 	private World location;
-	private Set<Being> parents;
+	private Set<Being> parents = new HashSet<>();
 	private Being partner;
 	private Gene[] genome;
-	private Set<Being> children;
-	private boolean alive;
+	private Set<Being> children = new HashSet<>();
+	private boolean alive = true;
 
 	// The different constructors
 	public Being(String name, int age) {
 		this.name = name;
 		this.age = age;
-		this.children = new HashSet<Being>();
-		this.parents = new HashSet<Being>();
-		this.alive = true;
 	}
 
-	public Being(String name) {
+	Being(String name) {
 		this.name = name;
 		this.age = 0;
-		this.children = new HashSet<Being>();
-		this.parents = new HashSet<Being>();
-		this.alive = true;
 	}
 
-	public Being(int age) throws IOException {
+	Being(int age) throws IOException {
 		this.name = generateName();
 		this.age = age;
-		this.children = new HashSet<Being>();
-		this.parents = new HashSet<Being>();
-		this.alive = true;
 	}
 
-	public Being() {
+	Being() {
 		this.name = "John Doe";
 		this.age = 0;
-		this.children = new HashSet<Being>();
-		this.parents = new HashSet<Being>();
-		this.alive = true;
 	}
 
 	/**
 	 * Main method for testing out the getChild method
 	 *
-	 * @param args
+	 * @param args any arguments you might want to give this method. Nothing is done with them, but still.
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, NoPartnerException {
 		// Create parents
 		Being jane = new Being("Jane Doe", 30);
 		Being john = new Being("John Doe", 35);
@@ -69,19 +57,19 @@ public class Being {
 		jane.genome = GeneticsUtils.generateGenome();
 		john.genome = GeneticsUtils.generateGenome();
 		// Conceive a child
-		Being jimmy = jane.getChild();
+		jane.getChild();
 		// Conceive a child
-		Being jasmine = jane.getChild();
+		jane.getChild();
 		// Conceive a child
-		Being joyce = jane.getChild();
+		jane.getChild();
 		// Conceive a child
-		Being jarl = jane.getChild();
+		jane.getChild();
 		// Conceive a child
-		Being jill = jane.getChild();
+		jane.getChild();
 		// Conceive a child
-		Being jesper = jane.getChild();
+		jane.getChild();
 		// Conceive a child
-		Being joanna = jane.getChild();
+		jane.getChild();
 		// System.out.println(GeneticsUtils.genesToString(jasmine.genome));
 		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(jane, true));
 		GenomeToHtml.showInbrowser(GenomeToHtml.toHtml(john, true));
@@ -99,27 +87,23 @@ public class Being {
 		this.name = name;
 	}
 
-	public int getAge() {
+	int getAge() {
 		return this.age;
 	}
 
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public Set<Being> getParents() {
+	private Set<Being> getParents() {
 		return this.parents;
 	}
 
-	public Being getPartner() {
+	Being getPartner() {
 		return this.partner;
 	}
 
-	public void setPartner(Being partner) {
+	void setPartner(Being partner) {
 		this.partner = partner;
 	}
 
-	public World getLocation() {
+	private World getLocation() {
 		return this.location;
 	}
 
@@ -127,20 +111,20 @@ public class Being {
 		return this.genome;
 	}
 
-	public Set<Being> getChildren() {
+	private Set<Being> getChildren() {
 		return this.children;
 	}
 
-	public boolean getStatus() {
+	boolean getStatus() {
 		return this.alive;
 	}
 
-	public void die() {
+	private void die() {
 		this.alive = false;
 	}
 
 	// Both parents are set at the same time
-	public void setParents(Being mother, Being father) {
+	private void setParents(Being mother, Being father) {
 		parents.add(mother);
 		parents.add(father);
 	}
@@ -151,7 +135,7 @@ public class Being {
 
 	// Different from a simple setter, this increments the age of the being by
 	// 1. It might also kill the Being.
-	public void yearPassed() {
+	void yearPassed() {
 		double rand = Math.random();
 		double var = (1.0d / 12000) * this.getAge() * this.getAge();
 		if (rand >= var) {
@@ -167,7 +151,7 @@ public class Being {
 	 *
 	 * @return Child if there are two parents, nothing if only one.
 	 */
-	public Being getChild() throws IOException {
+	Being getChild() throws IOException, NoPartnerException {
 		// Checks if the parent has a partner
 		if (this.getStatus() && this.getPartner() != null && this.getPartner().getStatus()) {
 			int children;
@@ -198,7 +182,7 @@ public class Being {
 				return null;
 			}
 		} else {
-			return null;
+			throw new NoPartnerException(this.getName());
 		}
 	}
 
@@ -207,7 +191,7 @@ public class Being {
 
 	}
 
-	public String generateName() throws IOException {
+	private String generateName() throws IOException {
 		BufferedReader firstNameReader = new BufferedReader(new FileReader(getClass().getResource("firstnames.txt").getPath()));
 		String firstName;
 		BufferedReader lastNameReader = new BufferedReader(new FileReader(getClass().getResource("surnames.txt").getPath()));
@@ -222,26 +206,30 @@ public class Being {
 			lastNameReader.readLine();
 		}
 		lastName = lastNameReader.readLine();
-		StringBuilder sb = new StringBuilder();
-		sb.append(firstName + " " + lastName);
-		return sb.toString();
+		return firstName + " " + lastName;
 	}
 
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Name: " + this.getName());
-		sb.append("\nAge: " + this.getAge());
-		sb.append("\nStatus: " + (this.getStatus() ? "Alive" : "Deceased"));
-		sb.append("\nLocation: " + (this.getLocation() != null ? this.getLocation() : "Unknown"));
-		sb.append(
-				"\nPartner: " + (this.getPartner() != null ? this.getPartner().getName() : "None"));
+		sb.append("Name: ");
+		sb.append(this.getName());
+		sb.append("\nAge: ");
+		sb.append(this.getAge());
+		sb.append("\nStatus: ");
+		sb.append((this.getStatus() ? "Alive" : "Deceased"));
+		sb.append("\nLocation: ");
+		sb.append((this.getLocation() != null ? this.getLocation() : "Unknown"));
+		sb.append("\nPartner: ");
+		sb.append((this.getPartner() != null ? this.getPartner().getName() : "None"));
 		sb.append("\nParents: ");
 		for (Being parent : this.getParents()) {
-			sb.append(("\n") + parent.getName());
+			sb.append("\n");
+			sb.append(parent.getName());
 		}
 		sb.append("\nChildren: ");
 		for (Being child : this.getChildren()) {
-			sb.append(("\n") + child.getName());
+			sb.append("\n");
+			sb.append(child.getName());
 		}
 		return sb.toString();
 	}

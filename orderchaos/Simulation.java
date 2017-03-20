@@ -3,30 +3,21 @@ package WorldSimulation.orderchaos;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
-public class Simulation {
+class Simulation {
 
-	public Set<Being> population;
-	public Map<Being, Being> couples;
+	private Set<Being> population;
+	private Map<Being, Being> couples;
 
-	public Simulation() {
-		population = new HashSet<Being>();
-		couples = new HashMap<Being, Being>();
+	Simulation() {
+		population = new HashSet<>();
+		couples = new HashMap<>();
 	}
 
-	public void makeMatches() {
-		ArrayList<Being> single = new ArrayList<Being>();
-		for (Being beings : population) {
-			if (beings.getPartner() == null && beings.getAge() > 16 && beings.getStatus()) {
-				single.add(beings);
-			}
-		}
-		single.sort(new Comparator<Being>() {
-			@Override
-			public int compare(Being b1, Being b2) {
-				return b1.getAge() - b2.getAge();
-			}
-		});
+	void makeMatches() {
+		ArrayList<Being> single = population.stream().filter(beings -> beings.getPartner() == null && beings.getAge() > 16 && beings.getStatus()).collect(Collectors.toCollection(ArrayList::new));
+		single.sort((b1, b2) -> b1.getAge() - b2.getAge());
 
 		for (int i = 0; i < single.size(); i += 2) {
 			if (i + 1 != single.size()) {
@@ -41,7 +32,7 @@ public class Simulation {
 		}
 	}
 
-	public boolean initialPopulation(int amount) throws IOException {
+	boolean initialPopulation(int amount) throws IOException {
 		for (int i = 0; i < amount; i++) {
 			int age = ThreadLocalRandom.current().nextInt(0, 100);
 			Being temp = new Being(age);
@@ -52,7 +43,7 @@ public class Simulation {
 		return false;
 	}
 
-	public void findBeing(String name) {
+	void findBeing(String name) {
 		boolean found = false;
 		Iterator<Being> it = population.iterator();
 		while (it.hasNext() && !found) {
@@ -67,7 +58,7 @@ public class Simulation {
 		}
 	}
 
-	public void addYear() {
+	private void addYear() {
 		for (Being person : population
 				) {
 			{
@@ -79,30 +70,34 @@ public class Simulation {
 
 	}
 
-	public void time() throws IOException {
+	void time() throws IOException {
 		makeMatches();
 		makeBabies();
 		addYear();
 
 	}
 
-	public void makeBabies() throws IOException {
-		for (Map.Entry<Being, Being> entry : couples.entrySet()) {
-			Being tempKid = entry.getKey().getChild();
-			if (tempKid != null) {
-				population.add(tempKid);
+	private void makeBabies() throws IOException {
+		try {
+			for (Map.Entry<Being, Being> entry : couples.entrySet()) {
+				Being tempKid = entry.getKey().getChild();
+				if (tempKid != null) {
+					population.add(tempKid);
+				}
 			}
+		} catch (NoPartnerException e) {
+			System.err.println(e.getMessage());
 		}
 	}
 
-	public void getPopulation() {
+	void getPopulation() {
 		for (Being person : population) {
 			System.out.println(person.getName() + ", " + person.getAge() + ", "
 					+ (person.getStatus() ? "alive" : "deceased"));
 		}
 	}
 
-	public void getLivingPopulation() {
+	void getLivingPopulation() {
 		for (Being person : population) { {
 			if (person.getStatus()) {
 				System.out.println(person.getName() + ", " + person.getAge());
@@ -110,7 +105,7 @@ public class Simulation {
 		}}
 	}
 
-	public void getDeadPopulation() {
+	void getDeadPopulation() {
 		for (Being person : population
 				) {
 			{
