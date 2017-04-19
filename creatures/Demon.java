@@ -1,4 +1,4 @@
-package WorldSimulation.orderchaos;
+package WorldSimulation.creatures;
 
 import java.io.IOException;
 

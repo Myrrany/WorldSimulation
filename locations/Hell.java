@@ -1,4 +1,4 @@
-package WorldSimulation.orderchaos;
+package WorldSimulation.locations;
 
 public class Hell extends World {
 

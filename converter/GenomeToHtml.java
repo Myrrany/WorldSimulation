@@ -1,8 +1,8 @@
 package WorldSimulation.converter;
 
-import WorldSimulation.orderchaos.Being;
-import WorldSimulation.orderchaos.Gene;
-import WorldSimulation.orderchaos.GeneticsUtils;
+import WorldSimulation.creatures.Being;
+import WorldSimulation.genetics.Gene;
+import WorldSimulation.genetics.GeneticsUtils;
 
 import java.io.*;
 import java.util.HashMap;

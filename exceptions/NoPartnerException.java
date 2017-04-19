@@ -1,4 +1,4 @@
-package WorldSimulation.orderchaos;
+package WorldSimulation.exceptions;
 
 public class NoPartnerException extends Exception {
 

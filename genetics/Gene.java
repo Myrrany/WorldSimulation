@@ -1,4 +1,4 @@
-package WorldSimulation.orderchaos;
+package WorldSimulation.genetics;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -37,6 +37,18 @@ public class Gene {
 
 	// Methods
 	
+	/**
+	 * Main method to test out Gene generation
+	 * @param args The arguments that are passed to the main method. Nothing is done with them.
+	 */
+	public static void main(String[] args) {
+		Gene totalRand = new Gene();
+		System.out.println(totalRand.toString() + "\n");
+		totalRand.setChromA(17);
+		System.out.println(totalRand.toString() + "\n");
+
+	}
+
 	/**
 	 * General toString method.
 	 */
@@ -77,19 +89,6 @@ public class Gene {
 
 	public void setDom(boolean isDom) {
 		this.isDom = isDom;
-	}
-
-	
-	/**
-	 * Main method to test out Gene generation
-	 * @param args The arguments that are passed to the main method. Nothing is done with them.
-	 */
-	public static void main(String[] args) {
-		Gene totalRand = new Gene();
-		System.out.println(totalRand.toString() + "\n");
-		totalRand.setChromA(17);
-		System.out.println(totalRand.toString() + "\n");
-
 	}
 
 }

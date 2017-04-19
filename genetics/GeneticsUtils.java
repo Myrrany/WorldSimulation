@@ -1,4 +1,4 @@
-package WorldSimulation.orderchaos;
+package WorldSimulation.genetics;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -22,7 +22,7 @@ public class GeneticsUtils {
 	 * @param dad Gene[] of the father
 	 * @return Gene[] of the child
 	 */
-	static Gene[] breedGenes(Gene[] mom, Gene[] dad) {
+	public static Gene[] breedGenes(Gene[] mom, Gene[] dad) {
 		Gene[] child = new Gene[allGeneNames.size()];
 		// Name some variables for later use.
 		int a;
