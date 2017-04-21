@@ -3,7 +3,9 @@ package WorldSimulation.orderchaos;
 import WorldSimulation.creatures.Being;
 
 /**
- * Created by myrthe on 15-4-17.
+ * This class keeps track of a relationship, who is in it et cetera.
+ *
+ * Created by Myrthe on 15-4-17.
  */
 public class Relationship {
 

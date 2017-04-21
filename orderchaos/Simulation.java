@@ -15,10 +15,12 @@ public class Simulation {
 
 	private Set<Being> population;
 	private List<Relationship> ships;
+	private int year;
 
 	Simulation() {
 		population = new HashSet<>();
 		ships = new ArrayList<>();
+		year = 0;
 	}
 //TODO: add Javadoc
 
@@ -46,7 +48,7 @@ public class Simulation {
 					* (dad.getAge() - 35)) / 400d) + 0.75) / children;
 			double rand = Math.random();
 			if (rand <= curve + secondCurve) {
-				Being child = new Being(generateName());
+				Being child = new Being(generateName(ship));
 				child.setParents(mom, dad);
 				// Child's genome is determined by the parents' genome
 				child.setGenome(GeneticsUtils.breedGenes(mom.getGeneArray(), dad.getGeneArray()));
@@ -83,13 +85,26 @@ public class Simulation {
 		return firstName + " " + lastName;
 	}
 
+	private static String generateName(Relationship ship) throws IOException {
+		BufferedReader firstNameReader = new BufferedReader(new FileReader("/home/myrthe/workspace/RandomBuilds/src/WorldSimulation/orderchaos/firstnames.txt"));
+		String firstName;
+		int front = ThreadLocalRandom.current().nextInt(0, 5162);
+		for (int i = 0; i < front; i++) {
+			firstNameReader.readLine();
+		}
+		firstName = firstNameReader.readLine();
+		String lastName = ship.getFirstPerson().getName().split(" ")[1];
+		return firstName + " " + lastName;
+	}
 
-	public void removeRelationship(Relationship ship) {
+
+	private void removeRelationship(Relationship ship) {
 		ships.remove(ships.indexOf(ship));
 	}
 
 
-	public void makeMatches() {
+	//TODO: fix the thing where incest keeps happening
+	void makeMatches() {
 		ArrayList<Being> single = population.stream().filter(beings -> beings.getShip() == null && beings.getAge() > 16 && beings.getStatus()).collect(Collectors.toCollection(ArrayList::new));
 		single.sort((b1, b2) -> b1.getAge() - b2.getAge());
 
@@ -107,7 +122,7 @@ public class Simulation {
 		}
 	}
 
-	public boolean initialPopulation(int amount) throws IOException {
+	boolean initialPopulation(int amount) throws IOException {
 		for (int i = 0; i < amount; i++) {
 			int age = ThreadLocalRandom.current().nextInt(0, 100);
 			Being temp = new Being(age);
@@ -118,7 +133,7 @@ public class Simulation {
 		return false;
 	}
 
-	public void findBeing(String name) {
+	void findBeing(String name) {
 		boolean found = false;
 		Iterator<Being> it = population.iterator();
 		while (it.hasNext() && !found) {
@@ -133,14 +148,13 @@ public class Simulation {
 		}
 	}
 
-	//TODO: Make a method to add multiple years at once
 	private void addYear() {
 		for (Being person : population
 				) {
 			{
 				if (person.getStatus()) {
 					person.yearPassed();
-					if (person.getStatus()) {
+					if (!person.getStatus() && person.getShip() != null) {
 						removeRelationship(person.getShip());
 					}
 				}
@@ -149,11 +163,19 @@ public class Simulation {
 
 	}
 
-	public void time() throws IOException {
+	void time() throws IOException {
+		System.err.println("\nCurrent year: " + year);
 		makeMatches();
 		makeBabies();
 		addYear();
+		year++;
 
+	}
+
+	void multipleYears(int amount) throws IOException {
+		for (int i = 0; i < amount; i++) {
+			time();
+		}
 	}
 
 	private void makeBabies() throws IOException {
@@ -169,14 +191,14 @@ public class Simulation {
 		}
 	}
 
-	public void getPopulation() {
+	void getPopulation() {
 		for (Being person : population) {
 			System.out.println(person.getName() + ", " + person.getAge() + ", "
 					+ (person.getStatus() ? "alive" : "deceased"));
 		}
 	}
 
-	public void getLivingPopulation() {
+	void getLivingPopulation() {
 		for (Being person : population) {
 			{
 				if (person.getStatus()) {
@@ -186,7 +208,7 @@ public class Simulation {
 		}
 	}
 
-	public void getDeadPopulation() {
+	void getDeadPopulation() {
 		for (Being person : population
 				) {
 			{

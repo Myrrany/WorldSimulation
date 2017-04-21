@@ -147,26 +147,31 @@ public class Being {
 	 */
 	public void yearPassed() {
 		double rand = Math.random();
-		double var = (1.0d / 12000) * this.getAge() * this.getAge();
+		double var = (2.0d / 12000) * this.getAge();
 		if (rand >= var) {
 			this.age++;
 		} else {
 			this.die();
-			if (this.getShip().getFirstPerson().equals(this)) {
-				this.getShip().getSecondPerson().setShip(null);
-			} else {
-				this.getShip().getFirstPerson().setShip(null);
+			if (this.getShip() != null) {
+				if (this.getShip().getFirstPerson().equals(this)) {
+					this.getShip().getSecondPerson().setShip(null);
+				} else {
+					this.getShip().getFirstPerson().setShip(null);
+				}
 			}
 
 			System.out.println("Being " + this.getName() + " has died! \n");
 		}
 	}
 
-	public boolean equals(Being test) {
-		if (this.getName().equals(test.getName())) {
-			if (Arrays.equals(this.getGeneArray(), test.getGeneArray())) {
-				if (this.getAge() == test.getAge()) {
-					return true;
+	public boolean equals(Object obj) {
+		if (obj instanceof Being) {
+			Being o = (Being) obj;
+			if (this.getName().equals(o.getName())) {
+				if (Arrays.equals(this.getGeneArray(), o.getGeneArray())) {
+					if (this.getAge() == o.getAge()) {
+						return true;
+					}
 				}
 			}
 		}
@@ -190,7 +195,7 @@ public class Being {
 		sb.append("\nLocation: ");
 		sb.append((this.getLocation() != null ? this.getLocation() : "Unknown"));
 		sb.append("\nRelationship: ");
-		sb.append((this.getShip() != null ? this.getShip().getFirstPerson() + " and " + this.getShip().getSecondPerson() : "None"));
+		sb.append((this.getShip() != null ? this.getShip().getFirstPerson().getName() + " and " + this.getShip().getSecondPerson().getName() : "None"));
 		sb.append("\nParents: ");
 		for (Being parent : this.getParents()) {
 			sb.append("\n");

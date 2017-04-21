@@ -8,11 +8,18 @@ public class SimulationTUI extends Thread {
 	private String help = "Possible commands: \n"
 			+ "\nINITIATE [amount]: Initiates a population of [amount] people with random names."
 			+ "\nROMANCE: Gives singles a partner." + "\nFIND [name]: Finds a specific being." +
-			"\nAGE: Lets a year pass." + "\nALL [ALIVE/DEAD]: Gives a list of all [ALIVE/DEAD] beings in the simulation.";
+			"\nAGE [amount]: Lets a year [* amount] pass." + "\nALL [ALIVE/DEAD]: Gives a list of all [ALIVE/DEAD] beings in the simulation.";
 
 	private Simulation simul;
 
 	private SimulationTUI() {
+
+	}
+
+	public static void main(String[] args) {
+		SimulationTUI tui = new SimulationTUI();
+		Thread simulation = new Thread(tui);
+		simulation.start();
 
 	}
 
@@ -48,7 +55,11 @@ public class SimulationTUI extends Thread {
 		} else if (com.equalsIgnoreCase("FIND")) {
 			simul.findBeing(rest.substring(1));
 		} else if (com.equalsIgnoreCase("AGE")) {
-			simul.time();
+			if (rest.length() != 0) {
+				simul.multipleYears(Integer.parseInt(rest.substring(1)));
+			} else {
+				simul.time();
+			}
 		} else if (com.equalsIgnoreCase("ALL")) {
 			if (rest.equalsIgnoreCase(" ALIVE")) {
 				simul.getLivingPopulation();
@@ -64,13 +75,6 @@ public class SimulationTUI extends Thread {
 			System.out.println(help);
 		}
 		return false;
-
-	}
-
-	public static void main(String[] args) {
-		SimulationTUI tui = new SimulationTUI();
-		Thread simulation = new Thread(tui);
-		simulation.start();
 
 	}
 }

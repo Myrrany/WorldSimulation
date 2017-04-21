@@ -46,6 +46,8 @@ public class Gene {
 		System.out.println(totalRand.toString() + "\n");
 		totalRand.setChromA(17);
 		System.out.println(totalRand.toString() + "\n");
+		totalRand.setChromB(17);
+		System.out.println(totalRand.toString() + "\n");
 
 	}
 
@@ -79,7 +81,7 @@ public class Gene {
 		return chromB;
 	}
 
-	public void setChromB(int chromB) {
+	private void setChromB(int chromB) {
 		this.chromB = chromB;
 	}
 
