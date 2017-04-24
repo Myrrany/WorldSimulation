@@ -9,7 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by simon on 17.01.17.
+ * This class contains all methods needed to turn the genome of a being into HTML code.
+ *
+ * @author Simon Struck
+ * @version 1.0
  */
 public class GenomeToHtml {
 
@@ -22,8 +25,7 @@ public class GenomeToHtml {
 	/**
 	 * Opens firefox with a given filename.
 	 *
-	 * @param fileName
-	 *            Relative path to the file you want to display.
+	 * @param fileName Relative path to the file you want to display.
 	 */
 	public static void showInbrowser(String fileName) {
 		// Get the file you want to display
@@ -60,9 +62,8 @@ public class GenomeToHtml {
 	/**
 	 * Convert a being to a file and use the name of that being as the filename.
 	 * Does not print the character while operating.
-	 * 
-	 * @param being
-	 *            The being to be printed.
+	 *
+	 * @param being The being to be printed.
 	 * @return The file name of the generated file.
 	 */
 	public static String toHtml(Being being) {
@@ -72,12 +73,9 @@ public class GenomeToHtml {
 
 	/**
 	 * Convert a being to a file and use the name of that being as the filename.
-	 * 
-	 * @param being
-	 *            The being to be printed.
-	 * @param printStuff
-	 *            If you want it to print the bing to the StdOut, set this to
-	 *            true.
+	 *
+	 * @param being      The being to be printed.
+	 * @param printStuff If you want it to print the bing to the StdOut, set this to true.
 	 * @return The file name of the generated file.
 	 */
 	public static String toHtml(Being being, boolean printStuff) {
@@ -86,17 +84,13 @@ public class GenomeToHtml {
 
 	/**
 	 * Convert a being to a file and use the name of that being as the filename.
-	 * 
-	 * @param charName
-	 *            The name of the character you want to print.
-	 * @param genes
-	 *            The genes you want to print.
-	 * @param printStuff
-	 *            If you want it to print the bing to the StdOut, set this to
-	 *            true.
+	 *
+	 * @param charName   The name of the character you want to print.
+	 * @param genes      The genes you want to print.
+	 * @param printStuff If you want it to print the bing to the StdOut, set this to true.
 	 * @return The file name of the generated file.
 	 */
-	public static String toHtml(String charName, Gene[] genes, boolean printStuff) {
+	private static String toHtml(String charName, Gene[] genes, boolean printStuff) {
 		// Create a HashMap, to store all the data before I can work with it.
 		HashMap<String, HashMap<String, Integer>> convertedGenes = new HashMap<>();
 
@@ -163,7 +157,8 @@ public class GenomeToHtml {
 				pw.println("</td>");
 				if (item.getKey().equalsIgnoreCase("Wings")) {
 					if (item.getValue().get("boolean") == 2) {
-						pw.println("<td style=\"width: 20px; background-color: rgb(" + item.getValue().get("red") + ", "
+						pw.println("<td style=\"width: 20px; background-color: rgb(" + item.getValue().get("red") +
+								", "
 								+ item.getValue().get("green") + ", " + item.getValue().get("blue") + ");\">" + ""
 								+ "</td>");
 					} else {
@@ -181,7 +176,7 @@ public class GenomeToHtml {
 					pw.println("<td style=\"width: 20px; background-color: rgb(" + item.getValue().get("red") + ", "
 							+ item.getValue().get("green") + ", " + item.getValue().get("blue") + ");\">"
 							+ ((item.getValue().get("boolean") != null)
-									? (item.getValue().get("boolean") == 2 ? "Yes" : "No") : "")
+							? (item.getValue().get("boolean") == 2 ? "Yes" : "No") : "")
 							+ "</td>");
 				}
 				pw.println("</tr>");
@@ -199,9 +194,8 @@ public class GenomeToHtml {
 
 	/**
 	 * Yes, I wrote a function that literally just adds the chromosomes.
-	 * 
-	 * @param gene
-	 *            The gene that you want to use.
+	 *
+	 * @param gene The gene that you want to use.
 	 * @return The added value of both chromosomes.
 	 */
 	private static int add(Gene gene) {
@@ -210,9 +204,8 @@ public class GenomeToHtml {
 
 	/**
 	 * Takes the average of two chromosomes.
-	 * 
-	 * @param gene
-	 *            The gene you want to use.
+	 *
+	 * @param gene The gene you want to use.
 	 * @return The average of both chromosomes.
 	 */
 	private static int avg(Gene gene) {

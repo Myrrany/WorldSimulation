@@ -11,12 +11,18 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
+/**
+ * This class has all the methods needed for a simulation.
+ */
 public class Simulation {
 
 	private Set<Being> population;
 	private List<Relationship> ships;
 	private int year;
 
+	/**
+	 * This method constructs a new instance of the class, using empty lists of population and ships, and the year 0.
+	 */
 	Simulation() {
 		population = new HashSet<>();
 		ships = new ArrayList<>();
@@ -67,10 +73,18 @@ public class Simulation {
 		}
 	}
 
+	/**
+	 * This method will randomly generate a name using two predefined files of names.
+	 *
+	 * @return A first name and a surname.
+	 * @throws IOException Because of reading from files, this method might throw an I/O exception.
+	 */
 	public static String generateName() throws IOException {
-		BufferedReader firstNameReader = new BufferedReader(new FileReader("/home/myrthe/workspace/RandomBuilds/src/WorldSimulation/orderchaos/firstnames.txt"));
+		BufferedReader firstNameReader = new BufferedReader(new FileReader
+				("firstnames.txt"));
 		String firstName;
-		BufferedReader lastNameReader = new BufferedReader(new FileReader("/home/myrthe/workspace/RandomBuilds/src/WorldSimulation/orderchaos/surnames.txt"));
+		BufferedReader lastNameReader = new BufferedReader(new FileReader
+				("surnames.txt"));
 		String lastName;
 		int front = ThreadLocalRandom.current().nextInt(0, 5162);
 		int back = ThreadLocalRandom.current().nextInt(0, 151670);
@@ -85,8 +99,17 @@ public class Simulation {
 		return firstName + " " + lastName;
 	}
 
+	/**
+	 * This method will randomly generate a name using a predefined file and a Relationship where it gets the surname
+	 * from.
+	 *
+	 * @param ship The Relationship to get the surname from.
+	 * @return A first name and a surname.
+	 * @throws IOException Because of reading from a file, this method might throw an I/O exception.
+	 */
 	private static String generateName(Relationship ship) throws IOException {
-		BufferedReader firstNameReader = new BufferedReader(new FileReader("/home/myrthe/workspace/RandomBuilds/src/WorldSimulation/orderchaos/firstnames.txt"));
+		BufferedReader firstNameReader = new BufferedReader(new FileReader
+				("firstnames.txt"));
 		String firstName;
 		int front = ThreadLocalRandom.current().nextInt(0, 5162);
 		for (int i = 0; i < front; i++) {
@@ -97,15 +120,23 @@ public class Simulation {
 		return firstName + " " + lastName;
 	}
 
-
+	/**
+	 * This method will remove a Relationship from the set of Relationships.
+	 *
+	 * @param ship The Relationship to be removed.
+	 */
 	private void removeRelationship(Relationship ship) {
 		ships.remove(ships.indexOf(ship));
 	}
 
 
+	/**
+	 * This method will match single Beings in the population with other singles of their approximate age.
+	 */
 	//TODO: fix the thing where incest keeps happening
 	void makeMatches() {
-		ArrayList<Being> single = population.stream().filter(beings -> beings.getShip() == null && beings.getAge() > 16 && beings.getStatus()).collect(Collectors.toCollection(ArrayList::new));
+		ArrayList<Being> single = population.stream().filter(beings -> beings.getShip() == null && beings.getAge() >
+				16 && beings.getStatus()).collect(Collectors.toCollection(ArrayList::new));
 		single.sort((b1, b2) -> b1.getAge() - b2.getAge());
 
 		for (int i = 0; i < single.size(); i += 2) {
@@ -122,7 +153,13 @@ public class Simulation {
 		}
 	}
 
-	boolean initialPopulation(int amount) throws IOException {
+	/**
+	 * This method will generate an initial population.
+	 *
+	 * @param amount The size of the initial population.
+	 * @throws IOException Because of generating names from files, this method might throw an I/O exception.
+	 */
+	void initialPopulation(int amount) throws IOException {
 		for (int i = 0; i < amount; i++) {
 			int age = ThreadLocalRandom.current().nextInt(0, 100);
 			Being temp = new Being(age);
@@ -130,9 +167,13 @@ public class Simulation {
 			population.add(temp);
 			System.out.println("Being " + temp.getName() + " succesfully created!\n");
 		}
-		return false;
 	}
 
+	/**
+	 * This being will try to find a Being based on the name.
+	 *
+	 * @param name The name that should be searched for.
+	 */
 	void findBeing(String name) {
 		boolean found = false;
 		Iterator<Being> it = population.iterator();
@@ -148,6 +189,9 @@ public class Simulation {
 		}
 	}
 
+	/**
+	 * This method will add a year for every Being in the population.
+	 */
 	private void addYear() {
 		for (Being person : population
 				) {
@@ -163,6 +207,12 @@ public class Simulation {
 
 	}
 
+	/**
+	 * This method will make sure the right things happen when a year passes, such as matching singles, procreating and
+	 * aging people.
+	 *
+	 * @throws IOException Because names are generated using a file, this method might throw an I/O exception.
+	 */
 	void time() throws IOException {
 		System.err.println("\nCurrent year: " + year);
 		makeMatches();
@@ -172,12 +222,23 @@ public class Simulation {
 
 	}
 
+	/**
+	 * This method will make multiple years pass.
+	 *
+	 * @param amount The amount of years that need to pass.
+	 * @throws IOException Because names are generated using a file, this method might throw an I/O exception.
+	 */
 	void multipleYears(int amount) throws IOException {
 		for (int i = 0; i < amount; i++) {
 			time();
 		}
 	}
 
+	/**
+	 * This method will try to get couples to get a baby. Like, all of them.
+	 *
+	 * @throws IOException Because names are generated using a file, this method might throw an I/O exception.
+	 */
 	private void makeBabies() throws IOException {
 		try {
 			for (Relationship ship : ships) {
@@ -191,32 +252,47 @@ public class Simulation {
 		}
 	}
 
+	/**
+	 * This method will print the entire population, including if they are alive or not.
+	 */
 	void getPopulation() {
 		for (Being person : population) {
 			System.out.println(person.getName() + ", " + person.getAge() + ", "
 					+ (person.getStatus() ? "alive" : "deceased"));
 		}
+		System.err.println("Total: " + population.size());
 	}
 
+	/**
+	 * This method will print all alive Beings in the population.
+	 */
 	void getLivingPopulation() {
+		int total = 0;
 		for (Being person : population) {
 			{
 				if (person.getStatus()) {
 					System.out.println(person.getName() + ", " + person.getAge());
+					total++;
 				}
 			}
 		}
+		System.err.println("Total: " + total);
 	}
 
+	/**
+	 * This method will print all dead Beings in the population.
+	 */
 	void getDeadPopulation() {
-		for (Being person : population
-				) {
+		int total = 0;
+		for (Being person : population) {
 			{
 				if (!person.getStatus()) {
 					System.out.println(person.getName() + ", " + person.getAge());
+					total++;
 				}
 			}
 		}
+		System.err.println("Total: " + total);
 	}
 }
 

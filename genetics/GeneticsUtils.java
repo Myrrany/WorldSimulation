@@ -3,14 +3,22 @@ package WorldSimulation.genetics;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 
+/**
+ * This class has all the utils functions for the genetics package. Everything is quite random.
+ *
+ * @author Myrthe Hultermans
+ * @version 1.0
+ */
 public class GeneticsUtils {
 
-	// This set contains the names of all used genes.
-	// It can be extended if needed by adding more names to the list.
 	private static final LinkedHashSet<String> allGeneNames = new LinkedHashSet<>(
 			Arrays.asList("Hair red", "Hair green", "Hair blue", "Eyes red", "Eyes green", "Eyes blue", "Skin red",
-					"Skin green", "Skin blue", "Wings", "Wings red", "Wings green", "Wings blue", "Tail", "Horns", "Elf Ears", "Gender"));
+					"Skin green", "Skin blue", "Wings", "Wings red", "Wings green", "Wings blue", "Tail", "Horns",
+					"Elf Ears", "Gender"));
 
+	/**
+	 * This method constructs a new instance of the class.
+	 */
 	public GeneticsUtils() {
 	}
 
@@ -60,7 +68,7 @@ public class GeneticsUtils {
 	 * ToString method for entire Gene[].
 	 *
 	 * @param array Gene array that needs to be converted into String
-	 * @return String
+	 * @return The genome in String format.
 	 */
 	public static String genesToString(Gene[] array) {
 		StringBuilder sb = new StringBuilder();
@@ -87,7 +95,8 @@ public class GeneticsUtils {
 		for (String geneName : allGeneNames) {
 			// Uses other parameters for gene generation if the gene is for the
 			// presence of certain body parts
-			if (geneName.equals("Wings") || geneName.equals("Tail") || geneName.equals("Horns") || geneName.equals("Elf Ears") || geneName.equals("Gender")) {
+			if (geneName.equals("Wings") || geneName.equals("Tail") || geneName.equals("Horns") || geneName.equals
+					("Elf Ears") || geneName.equals("Gender")) {
 				name[i] = new Gene(false, 0, 1);
 			} else {
 				name[i] = new Gene();
