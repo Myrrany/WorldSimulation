@@ -15,7 +15,8 @@ public class SimulationTUI extends Thread {
 			+ "\nINITIATE [amount]: Initiates a population of [amount] people with random names."
 			+ "\nROMANCE: Gives singles a partner." + "\nFIND [name]: Finds a specific being." +
 			"\nAGE [amount]: Lets a year [* amount] pass." + "\nALL [ALIVE/DEAD]: Gives a list of all [ALIVE/DEAD] " +
-			"beings in the simulation.";
+			"beings in the simulation. \nFLOOD: Will make an apocalypse happen. \nNOAH: Will make an apocalypse " +
+			"happen, but two people survive by building a boat.";
 
 	private Simulation simul;
 
@@ -99,10 +100,13 @@ public class SimulationTUI extends Thread {
 			}
 		} else if (com.equalsIgnoreCase("EXIT")) {
 			System.out.println("Goodbye system");
-			this.interrupt();
-			return true;
+			System.exit(0);
 		} else if (com.equalsIgnoreCase("HELP")) {
 			System.out.println(help);
+		} else if (com.equalsIgnoreCase("FLOOD")) {
+			simul.apocalypse();
+		} else if (com.equalsIgnoreCase("NOAH")) {
+			simul.noah();
 		}
 		return false;
 

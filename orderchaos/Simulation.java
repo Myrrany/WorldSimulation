@@ -16,19 +16,23 @@ import java.util.stream.Collectors;
  */
 public class Simulation {
 
-	private Set<Being> population;
+	private Set<Being> deadPopulation;
+	private Set<Being> livingPopulation;
+	private List<Being> dying;
 	private List<Relationship> ships;
 	private int year;
 
 	/**
-	 * This method constructs a new instance of the class, using empty lists of population and ships, and the year 0.
+	 * This method constructs a new instance of the class, using empty lists of deadPopulation, livingPopulation and
+	 * ships, and the year 0.
 	 */
 	Simulation() {
-		population = new HashSet<>();
+		deadPopulation = new HashSet<>();
+		livingPopulation = new HashSet<>();
+		dying = new LinkedList<>();
 		ships = new ArrayList<>();
 		year = 0;
 	}
-//TODO: add Javadoc
 
 	/**
 	 * Method to let two Beings conceive a child.
@@ -126,35 +130,102 @@ public class Simulation {
 	 * @param ship The Relationship to be removed.
 	 */
 	private void removeRelationship(Relationship ship) {
-		ships.remove(ships.indexOf(ship));
-	}
-
-
-	/**
-	 * This method will match single Beings in the population with other singles of their approximate age.
-	 */
-	//TODO: fix the thing where incest keeps happening
-	void makeMatches() {
-		ArrayList<Being> single = population.stream().filter(beings -> beings.getShip() == null && beings.getAge() >
-				16 && beings.getStatus()).collect(Collectors.toCollection(ArrayList::new));
-		single.sort((b1, b2) -> b1.getAge() - b2.getAge());
-
-		for (int i = 0; i < single.size(); i += 2) {
-			if (i + 1 != single.size()) {
-				Relationship temp = new Relationship(single.get(i), single.get(i + 1));
-				ships.add(temp);
-				single.get(i).setShip(temp);
-				single.get(i + 1).setShip(temp);
-			} else {
-				break;
-			}
-			System.out.println(single.get(i).getName() + " matched with "
-					+ single.get(i + 1).getName() + "\n");
+		int index = ships.indexOf(ship);
+		if (index != -1) {
+			ships.remove(index);
 		}
 	}
 
+
 	/**
-	 * This method will generate an initial population.
+	 * This method will match single Beings in the living population with other singles of their approximate age, who
+	 * do not
+	 * have the same parents or grandparents.
+	 */
+	void makeMatches() {
+		LinkedList<Being> singles = livingPopulation.stream().filter(beings -> beings.getShip() == null && beings
+				.getAge() >
+				16).collect(Collectors.toCollection(LinkedList::new));
+		singles.sort((b1, b2) -> b1.getAge() - b2.getAge());
+		while (!singles.isEmpty()) {
+			Being first = singles.pop();
+			Being match = null;
+			int matchIndex = -1;
+			circle:
+			for (Being single : singles) {
+				loop:
+				while (true) {
+					if (!first.getParents().isEmpty() && !single.getParents().isEmpty()) {
+						for (Being parent : first.getParents()) {
+							if (single.getParents().contains(parent)) {
+								break loop;
+							}
+						}
+					}
+					if (!first.getGrandparents().isEmpty() && !single.getGrandparents().isEmpty()) {
+						for (Being grandparent : first.getGrandparents()) {
+							if (single.getGrandparents().contains(grandparent)) {
+								break loop;
+							}
+						}
+					}
+					match = single;
+					matchIndex = singles.indexOf(match);
+					break circle;
+				}
+			}
+			if (match != null) {
+				Relationship temp = new Relationship(first, match);
+				ships.add(temp);
+				first.setShip(temp);
+				match.setShip(temp);
+				singles.remove(matchIndex);
+				System.out.println(first.getName() + " matched with "
+						+ match.getName() + "\n");
+			} else {
+				System.out.println(first.getName() + " will die old and alone.");
+			}
+		}
+
+
+	}
+
+	/**
+	 * This method will try to kill everyone, reset everything and then fail to kill two people.
+	 */
+	void noah() {
+		int pick = ThreadLocalRandom.current().nextInt(0, ships.size());
+		Relationship boat = ships.get(pick);
+		Being noah = boat.getFirstPerson();
+		Being naamah = boat.getSecondPerson();
+		noah.purgeRelatives();
+		naamah.purgeRelatives();
+		apocalypse();
+		System.err.println("\n\n\n...\nExcept somehow two people survived?");
+		System.err.println(noah.getName() + " and " + naamah.getName() + " will be the first to walk this new world.");
+		livingPopulation.add(noah);
+		livingPopulation.add(naamah);
+		ships.add(boat);
+
+	}
+
+	/**
+	 * This method will kill everyone and reset all the things. A clean start, so to say.
+	 */
+	void apocalypse() {
+		System.err.println("Meteors start falling from the sky!\n");
+		System.err.println("A supervolcano erupts!\n");
+		System.err.println("Tsunami!\n...\n...\n...\n...\n...");
+		System.err.println("EVERYBODY DIES!");
+		System.err.println("Congratulations, you killed " + livingPopulation.size() + " people!");
+		livingPopulation.clear();
+		deadPopulation.clear();
+		ships.clear();
+		year = 0;
+	}
+
+	/**
+	 * This method will generate an initial living population.
 	 *
 	 * @param amount The size of the initial population.
 	 * @throws IOException Because of generating names from files, this method might throw an I/O exception.
@@ -164,7 +235,7 @@ public class Simulation {
 			int age = ThreadLocalRandom.current().nextInt(0, 100);
 			Being temp = new Being(age);
 			temp.setGenome(GeneticsUtils.generateGenome());
-			population.add(temp);
+			livingPopulation.add(temp);
 			System.out.println("Being " + temp.getName() + " succesfully created!\n");
 		}
 	}
@@ -176,7 +247,15 @@ public class Simulation {
 	 */
 	void findBeing(String name) {
 		boolean found = false;
-		Iterator<Being> it = population.iterator();
+		Iterator<Being> it = deadPopulation.iterator();
+		Iterator<Being> liveIt = livingPopulation.iterator();
+		while (liveIt.hasNext() && !found) {
+			Being person = liveIt.next();
+			if (person.getName().equalsIgnoreCase(name)) {
+				System.out.println(person.toString());
+				found = true;
+			}
+		}
 		while (it.hasNext() && !found) {
 			Being person = it.next();
 			if (person.getName().equalsIgnoreCase(name)) {
@@ -190,23 +269,28 @@ public class Simulation {
 	}
 
 	/**
-	 * This method will add a year for every Being in the population.
+	 * This method will add a year for every Being in the living population.
 	 */
 	private void addYear() {
-		for (Being person : population
-				) {
-			{
-				if (person.getStatus()) {
-					person.yearPassed();
-					if (!person.getStatus() && person.getShip() != null) {
-						removeRelationship(person.getShip());
-					}
-				}
+		for (Being person : livingPopulation) {
+			person.yearPassed();
+			if (!person.getStatus() && person.getShip() != null) {
+				removeRelationship(person.getShip());
+				dying.add(person);
 			}
 		}
-
 	}
 
+	/**
+	 * This method will remove all dead people from the living population at the end of the year.
+	 */
+	private void purgeDead() {
+		for (Being dead : dying) {
+			livingPopulation.remove(dead);
+			deadPopulation.add(dead);
+		}
+		dying.clear();
+	}
 	/**
 	 * This method will make sure the right things happen when a year passes, such as matching singles, procreating and
 	 * aging people.
@@ -218,6 +302,7 @@ public class Simulation {
 		makeMatches();
 		makeBabies();
 		addYear();
+		purgeDead();
 		year++;
 
 	}
@@ -244,7 +329,7 @@ public class Simulation {
 			for (Relationship ship : ships) {
 				Being tempKid = getChild(ship);
 				if (tempKid != null) {
-					population.add(tempKid);
+					livingPopulation.add(tempKid);
 				}
 			}
 		} catch (NoPartnerException e) {
@@ -256,43 +341,41 @@ public class Simulation {
 	 * This method will print the entire population, including if they are alive or not.
 	 */
 	void getPopulation() {
-		for (Being person : population) {
-			System.out.println(person.getName() + ", " + person.getAge() + ", "
-					+ (person.getStatus() ? "alive" : "deceased"));
+		for (Being person : livingPopulation) {
+			System.out.println(person.getName() + ", " + person.getAge() + ", alive");
 		}
-		System.err.println("Total: " + population.size());
+		for (Being person : deadPopulation) {
+			System.out.println(person.getName() + ", " + person.getAge() + ", deceased");
+		}
+		System.err.println("Total: " + (deadPopulation.size() + livingPopulation.size()));
 	}
 
 	/**
 	 * This method will print all alive Beings in the population.
 	 */
 	void getLivingPopulation() {
-		int total = 0;
-		for (Being person : population) {
+		for (Being person : livingPopulation) {
 			{
 				if (person.getStatus()) {
 					System.out.println(person.getName() + ", " + person.getAge());
-					total++;
 				}
 			}
 		}
-		System.err.println("Total: " + total);
+		System.err.println("Total: " + livingPopulation.size());
 	}
 
 	/**
 	 * This method will print all dead Beings in the population.
 	 */
 	void getDeadPopulation() {
-		int total = 0;
-		for (Being person : population) {
+		for (Being person : deadPopulation) {
 			{
 				if (!person.getStatus()) {
 					System.out.println(person.getName() + ", " + person.getAge());
-					total++;
 				}
 			}
 		}
-		System.err.println("Total: " + total);
+		System.err.println("Total: " + deadPopulation.size());
 	}
 }
 

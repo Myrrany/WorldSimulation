@@ -162,7 +162,7 @@ public class Being {
 	 *
 	 * @return A set of Beings that are the parents of the Being.
 	 */
-	private Set<Being> getParents() {
+	public Set<Being> getParents() {
 		return this.parents;
 	}
 
@@ -218,6 +218,28 @@ public class Being {
 	public void setParents(Being mother, Being father) {
 		parents.add(mother);
 		parents.add(father);
+	}
+
+	/**
+	 * This method will make it as if relatives (especially those embarrassing ones) have never even existed.
+	 */
+	public void purgeRelatives() {
+		this.children.clear();
+		this.parents.clear();
+	}
+
+	/**
+	 * This method gets the grandparents of a Being.
+	 *
+	 * @return A set with the grandparents of a Being.
+	 */
+	public Set<Being> getGrandparents() {
+		Set<Being> grandparents = new HashSet<>();
+		for (Being parent : this.getParents()
+				) {
+			grandparents.addAll(parent.getParents());
+		}
+		return grandparents;
 	}
 
 	/**
